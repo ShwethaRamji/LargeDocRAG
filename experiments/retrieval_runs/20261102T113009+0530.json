@@ -1,0 +1,686 @@
+{
+  "top_k": 3,
+  "aggregate": {
+    "precision_at_k": 0.2333333333333333,
+    "recall_at_k": 0.7,
+    "mrr": 0.45,
+    "hit_rate_at_k": 0.7,
+    "average_retrieval_latency": 0.11848517498874571
+  },
+  "questions": [
+    {
+      "question_id": "Q001",
+      "question": "What is the main focus of data mining in this book?",
+      "relevant_pdf_pages": [
+        3
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-3",
+          "page_number": 3,
+          "distance": 0.28509974479675293
+        },
+        {
+          "chunk_id": "chunk-116",
+          "page_number": 38,
+          "distance": 0.38581931591033936
+        },
+        {
+          "chunk_id": "chunk-103",
+          "page_number": 33,
+          "distance": 0.38804030418395996
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        3,
+        38,
+        33
+      ],
+      "latency_seconds": 1.586172199982684,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q002",
+      "question": "How does a MapReduce computation process input data?",
+      "relevant_pdf_pages": [
+        43
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-129",
+          "page_number": 43,
+          "distance": 0.4140111207962036
+        },
+        {
+          "chunk_id": "chunk-144",
+          "page_number": 47,
+          "distance": 0.4270564317703247
+        },
+        {
+          "chunk_id": "chunk-141",
+          "page_number": 46,
+          "distance": 0.4284880757331848
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        43,
+        47,
+        46
+      ],
+      "latency_seconds": 0.04013799998210743,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q003",
+      "question": "Why are files replicated in a distributed file system?",
+      "relevant_pdf_pages": [
+        41
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-124",
+          "page_number": 41,
+          "distance": 0.45072317123413086
+        },
+        {
+          "chunk_id": "chunk-125",
+          "page_number": 41,
+          "distance": 0.48961353302001953
+        },
+        {
+          "chunk_id": "chunk-121",
+          "page_number": 40,
+          "distance": 0.49017101526260376
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        41,
+        40
+      ],
+      "latency_seconds": 0.037525199993979186,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q004",
+      "question": "What is the Jaccard similarity between two sets?",
+      "relevant_pdf_pages": [
+        92
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-320",
+          "page_number": 100,
+          "distance": 0.30686575174331665
+        },
+        {
+          "chunk_id": "chunk-289",
+          "page_number": 91,
+          "distance": 0.3867380619049072
+        },
+        {
+          "chunk_id": "chunk-356",
+          "page_number": 112,
+          "distance": 0.4067293405532837
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        100,
+        91,
+        112
+      ],
+      "latency_seconds": 0.037152000004425645,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0
+    },
+    {
+      "question_id": "Q005",
+      "question": "What is the purpose of shingling documents?",
+      "relevant_pdf_pages": [
+        95
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-308",
+          "page_number": 97,
+          "distance": 0.5236946940422058
+        },
+        {
+          "chunk_id": "chunk-302",
+          "page_number": 95,
+          "distance": 0.5602433085441589
+        },
+        {
+          "chunk_id": "chunk-304",
+          "page_number": 96,
+          "distance": 0.5627423524856567
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        97,
+        95,
+        96
+      ],
+      "latency_seconds": 0.03679390001343563,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q006",
+      "question": "Can a Bloom filter incorrectly reject an element that is actually in the set?",
+      "relevant_pdf_pages": [
+        158
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-508",
+          "page_number": 158,
+          "distance": 0.4120299220085144
+        },
+        {
+          "chunk_id": "chunk-509",
+          "page_number": 158,
+          "distance": 0.42619848251342773
+        },
+        {
+          "chunk_id": "chunk-514",
+          "page_number": 159,
+          "distance": 0.45715731382369995
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        158,
+        159
+      ],
+      "latency_seconds": 0.05141309997998178,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q007",
+      "question": "What is term spam?",
+      "relevant_pdf_pages": [
+        214
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-591",
+          "page_number": 182,
+          "distance": 0.47484052181243896
+        },
+        {
+          "chunk_id": "chunk-656",
+          "page_number": 205,
+          "distance": 0.47650396823883057
+        },
+        {
+          "chunk_id": "chunk-662",
+          "page_number": 208,
+          "distance": 0.4873731732368469
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        182,
+        205,
+        208
+      ],
+      "latency_seconds": 0.033689500007312745,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0
+    },
+    {
+      "question_id": "Q008",
+      "question": "What is the support of an itemset?",
+      "relevant_pdf_pages": [
+        254
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-786",
+          "page_number": 245,
+          "distance": 0.36602044105529785
+        },
+        {
+          "chunk_id": "chunk-719",
+          "page_number": 225,
+          "distance": 0.38652974367141724
+        },
+        {
+          "chunk_id": "chunk-701",
+          "page_number": 220,
+          "distance": 0.3911399841308594
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        245,
+        225,
+        220
+      ],
+      "latency_seconds": 0.034747199970297515,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0
+    },
+    {
+      "question_id": "Q009",
+      "question": "What is the confidence of an association rule?",
+      "relevant_pdf_pages": [
+        254
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-713",
+          "page_number": 223,
+          "distance": 0.37031400203704834
+        },
+        {
+          "chunk_id": "chunk-719",
+          "page_number": 225,
+          "distance": 0.4347493052482605
+        },
+        {
+          "chunk_id": "chunk-715",
+          "page_number": 224,
+          "distance": 0.4391547441482544
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        223,
+        225,
+        224
+      ],
+      "latency_seconds": 0.035688299976754934,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0
+    },
+    {
+      "question_id": "Q010",
+      "question": "How does the monotonicity property help the A-Priori algorithm?",
+      "relevant_pdf_pages": [
+        254
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-746",
+          "page_number": 233,
+          "distance": 0.3873826861381531
+        },
+        {
+          "chunk_id": "chunk-737",
+          "page_number": 230,
+          "distance": 0.41962993144989014
+        },
+        {
+          "chunk_id": "chunk-821",
+          "page_number": 255,
+          "distance": 0.4288453459739685
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        233,
+        230,
+        255
+      ],
+      "latency_seconds": 0.038079299964010715,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0
+    },
+    {
+      "question_id": "Q011",
+      "question": "How does the basic k-means algorithm assign points to clusters?",
+      "relevant_pdf_pages": [
+        273
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-946",
+          "page_number": 295,
+          "distance": 0.3520697355270386
+        },
+        {
+          "chunk_id": "chunk-873",
+          "page_number": 273,
+          "distance": 0.36031121015548706
+        },
+        {
+          "chunk_id": "chunk-872",
+          "page_number": 273,
+          "distance": 0.36328577995300293
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        295,
+        273
+      ],
+      "latency_seconds": 0.03899579995777458,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q012",
+      "question": "What are two unexpected properties associated with the curse of dimensionality?",
+      "relevant_pdf_pages": [
+        294
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-839",
+          "page_number": 262,
+          "distance": 0.4635118842124939
+        },
+        {
+          "chunk_id": "chunk-942",
+          "page_number": 294,
+          "distance": 0.5371123552322388
+        },
+        {
+          "chunk_id": "chunk-917",
+          "page_number": 287,
+          "distance": 0.5396661758422852
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        262,
+        294,
+        287
+      ],
+      "latency_seconds": 0.07167109998408705,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q013",
+      "question": "What is a utility matrix in a recommendation system?",
+      "relevant_pdf_pages": [
+        326
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1040",
+          "page_number": 326,
+          "distance": 0.29507362842559814
+        },
+        {
+          "chunk_id": "chunk-1042",
+          "page_number": 326,
+          "distance": 0.3295663595199585
+        },
+        {
+          "chunk_id": "chunk-1041",
+          "page_number": 326,
+          "distance": 0.33497655391693115
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        326
+      ],
+      "latency_seconds": 0.04909769998630509,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q014",
+      "question": "What is the difference between content-based and collaborative-filtering recommendation systems?",
+      "relevant_pdf_pages": [
+        325
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1052",
+          "page_number": 330,
+          "distance": 0.28183406591415405
+        },
+        {
+          "chunk_id": "chunk-1038",
+          "page_number": 325,
+          "distance": 0.33890408277511597
+        },
+        {
+          "chunk_id": "chunk-1055",
+          "page_number": 331,
+          "distance": 0.38806986808776855
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        330,
+        325,
+        331
+      ],
+      "latency_seconds": 0.04231059999438003,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q015",
+      "question": "What is UV-decomposition used for in recommendation systems?",
+      "relevant_pdf_pages": [
+        346
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1135",
+          "page_number": 356,
+          "distance": 0.38893741369247437
+        },
+        {
+          "chunk_id": "chunk-1107",
+          "page_number": 346,
+          "distance": 0.41147732734680176
+        },
+        {
+          "chunk_id": "chunk-1142",
+          "page_number": 358,
+          "distance": 0.4214590787887573
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        356,
+        346,
+        358
+      ],
+      "latency_seconds": 0.03805769997416064,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q016",
+      "question": "What is the goal of dimensionality reduction?",
+      "relevant_pdf_pages": [
+        423
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1427",
+          "page_number": 453,
+          "distance": 0.4378582239151001
+        },
+        {
+          "chunk_id": "chunk-1373",
+          "page_number": 434,
+          "distance": 0.4406200647354126
+        },
+        {
+          "chunk_id": "chunk-1345",
+          "page_number": 423,
+          "distance": 0.4528190493583679
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        453,
+        434,
+        423
+      ],
+      "latency_seconds": 0.03694189997622743,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q017",
+      "question": "What is an eigenvalue and its corresponding eigenvector?",
+      "relevant_pdf_pages": [
+        424
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1375",
+          "page_number": 435,
+          "distance": 0.42044323682785034
+        },
+        {
+          "chunk_id": "chunk-1426",
+          "page_number": 453,
+          "distance": 0.43078821897506714
+        },
+        {
+          "chunk_id": "chunk-1347",
+          "page_number": 424,
+          "distance": 0.44073033332824707
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        435,
+        453,
+        424
+      ],
+      "latency_seconds": 0.03409420000389218,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q018",
+      "question": "What is a perceptron?",
+      "relevant_pdf_pages": [
+        465
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1484",
+          "page_number": 473,
+          "distance": 0.4213827848434448
+        },
+        {
+          "chunk_id": "chunk-1499",
+          "page_number": 478,
+          "distance": 0.42717164754867554
+        },
+        {
+          "chunk_id": "chunk-1461",
+          "page_number": 465,
+          "distance": 0.4386979341506958
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        473,
+        478,
+        465
+      ],
+      "latency_seconds": 0.032465600001160055,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "hit_rate_at_k": 1.0
+    },
+    {
+      "question_id": "Q019",
+      "question": "What happens when a machine-learning model overfits its training set?",
+      "relevant_pdf_pages": [
+        500
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1450",
+          "page_number": 462,
+          "distance": 0.44285500049591064
+        },
+        {
+          "chunk_id": "chunk-1490",
+          "page_number": 475,
+          "distance": 0.45234036445617676
+        },
+        {
+          "chunk_id": "chunk-1489",
+          "page_number": 475,
+          "distance": 0.474614679813385
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        462,
+        475
+      ],
+      "latency_seconds": 0.04458099999465048,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0
+    },
+    {
+      "question_id": "Q020",
+      "question": "How does recursive doubling reduce the number of MapReduce rounds needed for transitive closure?",
+      "relevant_pdf_pages": [
+        419
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1301",
+          "page_number": 409,
+          "distance": 0.32996296882629395
+        },
+        {
+          "chunk_id": "chunk-1336",
+          "page_number": 419,
+          "distance": 0.3523426055908203
+        },
+        {
+          "chunk_id": "chunk-1304",
+          "page_number": 410,
+          "distance": 0.4221828579902649
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        409,
+        419,
+        410
+      ],
+      "latency_seconds": 0.050089200027287006,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0
+    }
+  ]
+}

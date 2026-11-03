@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LargeDocRAG — understand the pipeline</title>
+  <style>
+    :root { color-scheme: light; --ink:#182b3a; --muted:#536575; --paper:#f4f7fa; --line:#d6e0e9; --index:#116b63; --query:#2855a5; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.6 system-ui,sans-serif; }
+    main { max-width:1380px; margin:auto; padding:40px 32px 64px; }
+    h1 { font-size:clamp(30px,4vw,48px); line-height:1.12; letter-spacing:-1.5px; margin:12px 0 18px; }
+    h2 { margin:0; font-size:24px; line-height:1.3; }
+    h3 { margin:0 0 8px; font-size:17px; }
+    p { margin:10px 0; }
+    a { color:var(--query); text-underline-offset:3px; }
+    code { font:0.85em/1.5 ui-monospace,Consolas,monospace; overflow-wrap:anywhere; }
+    .eyebrow { font-size:12px; font-weight:750; letter-spacing:1.6px; text-transform:uppercase; color:var(--muted); }
+    .intro { max-width:850px; font-size:18px; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 24px; margin:22px 0; }
+    .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:26px 0 8px; }
+    .stat { background:white; padding:16px 20px; border:1px solid var(--line); border-radius:12px; }
+    .stat strong { display:block; font-size:26px; line-height:1.3; }
+    .stat span,.muted { color:var(--muted); font-size:14px; }
+    .lane { margin-top:30px; padding:24px; border:1px solid var(--line); border-radius:16px; background:white; scroll-margin-top:20px; }
+    .index { --accent:var(--index); }
+    .query { --accent:var(--query); }
+    .lane-label { color:var(--accent); margin-bottom:8px; }
+    .lane > p { color:var(--muted); }
+    .flow { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:22px; margin:22px 0 12px; align-items:start; }
+    .query .flow { grid-template-columns:repeat(6,minmax(0,1fr)); }
+    .block { position:relative; min-width:0; }
+    .block:not(:last-child)::after { content:'→'; position:absolute; right:-18px; top:44px; font-size:21px; color:var(--accent); }
+    details { border:1px solid var(--line); border-top:4px solid var(--accent,var(--line)); border-radius:10px; background:#fbfcfe; }
+    summary { padding:16px 12px; cursor:pointer; font-weight:700; font-size:15px; }
+    summary::marker { color:var(--accent,var(--ink)); }
+    summary small { display:block; margin-top:8px; font-weight:400; font-size:13px; color:var(--muted); }
+    details[open] { box-shadow:0 4px 16px #182b3a0a; }
+    .explanation { padding:0 12px 14px; font-size:13px; border-top:1px solid var(--line); }
+    .explanation dl { margin:12px 0; }
+    dt { font-weight:700; margin-top:9px; }
+    dd { margin:2px 0 0; }
+    .code-ref { color:var(--muted); border-top:1px solid var(--line); padding-top:10px; }
+    .bridge { background:#eaf5f2; border-left:4px solid var(--index); padding:12px 16px; margin:16px 0 0; font-size:14px; }
+    .memory { border-left:4px solid var(--query); background:#eef3fc; padding:12px 16px; font-size:14px; margin-top:16px; }
+    .learning { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:24px; }
+    .note { padding:20px; border:1px solid var(--line); background:white; border-radius:12px; }
+    .note p { font-size:14px; }
+    .wide { grid-column:1/-1; }
+    table { border-collapse:collapse; width:100%; font-size:14px; }
+    th,td { text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--line); }
+    th { background:var(--paper); }
+    .table-wrap { overflow:auto; }
+    footer { color:var(--muted); font-size:13px; margin-top:26px; }
+    :focus-visible { outline:3px solid #df8500; outline-offset:4px; }
+    @media(max-width:1050px) { .flow,.query .flow { grid-template-columns:1fr; gap:24px; } .block:not(:last-child)::after { content:'↓'; top:auto; right:50%; bottom:-27px; } summary small { display:inline; margin-left:8px; } }
+    @media(max-width:650px) { main { padding:24px 16px; } .lane { padding:18px; } .stats,.learning { grid-template-columns:1fr 1fr; } .learning .note { grid-column:1/-1; } summary small { display:block; margin-left:0; } }
+    @media print { body { background:white; } main { padding:0; } nav { display:none; } .flow,.query .flow { grid-template-columns:1fr 1fr; } .block::after { display:none; } .lane,.note { break-inside:avoid; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Your code, explained · LargeDocRAG</div>
+    <h1>From a book to a grounded answer.</h1>
+    <p class="intro">The project has two flows: explicit PDF indexing, and the Streamlit question flow. Each question retrieves up to three book chunks, formats page-labeled context and sources, then passes the question, context, and chat history to the answer model.</p>
+    <nav aria-label="Page sections"><a href="#index">1. Build the index</a><a href="#query">2. Answer a question</a><a href="#understand">3. Understand the design</a></nav>
+    <div class="stats">
+      <div class="stat"><strong>513</strong><span>PDF pages · notebook output</span></div>
+      <div class="stat"><strong>1,604</strong><span>stored chunks · database snapshot</span></div>
+      <div class="stat"><strong>768</strong><span>values per vector · notebook output</span></div>
+      <div class="stat"><strong>3</strong><span>retrieved chunks per app question</span></div>
+    </div>
+    <p class="muted">Select any block to see why it exists, what goes in and out, and where it lives in the code. This is an explanatory page; it does not run retrieval or call Ollama.</p>
+  </header>
+
+  <section class="lane index" id="index" aria-labelledby="index-title">
+    <div class="eyebrow lane-label">Preparation · rag_exploration.ipynb</div>
+    <h2 id="index-title">1. Build the book index</h2>
+    <p>Run the notebook or explicitly call the ingestion module to prepare an index. The Streamlit app opens the existing collection rather than processing the PDF on each question. No separate text-cleaning function is present in the current pipeline.</p>
+    <div class="flow">
+      <div class="block"><details><summary>1 · Read the PDF<small>bookL.pdf → document</small></summary><div class="explanation">
+        <p>The PDF is your knowledge source: <em>Mining of Massive Datasets</em>.</p>
+        <dl><dt>Input</dt><dd><code>data/bookL.pdf</code></dd><dt>Output</dt><dd>A PyMuPDF document that can be read page by page.</dd></dl>
+        <div class="code-ref"><code>ingestion.py</code> &middot; <code>extract_pdf_pages()</code><br>Notebook cell 1: <code>pymupdf.open(...)</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>2 · Extract text<small>document → page records</small></summary><div class="explanation">
+        <p>The pipeline works with extracted text. It does not send page images to the answer model.</p>
+        <dl><dt>Input</dt><dd>Each PDF page.</dd><dt>Output</dt><dd><code>{page_number, text}</code> for each page. Page numbers are one-based positions in the PDF, which can differ from printed book page numbers.</dd></dl>
+        <div class="code-ref">Notebook cells 3–4<br><code>page.get_text()</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>3 · Split into chunks<small>pages → smaller passages</small></summary><div class="explanation">
+        <p>Small passages let retrieval select a few relevant parts instead of sending the whole book.</p>
+        <dl><dt>Input</dt><dd>Extracted page text.</dd><dt>Output</dt><dd>Up to 1,000 characters per chunk, with 200 characters of overlap between adjacent chunks on the same page.</dd><dt>Why overlap?</dt><dd>It preserves some text around a split boundary. Chunks never span two pages; shorter final chunks are possible.</dd></dl>
+        <div class="code-ref"><code>ingestion.py</code> &middot; <code>chunk_pages()</code><br>Notebook cell 5: <code>chunk_size = 1000</code>, <code>overlap = 200</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>4 · Embed passages<small>chunk text → number vectors</small></summary><div class="explanation">
+        <p>An embedding is a numerical representation used to compare a question with passages. It is not an answer.</p>
+        <dl><dt>Input</dt><dd>Chunk texts, in batches of 32.</dd><dt>Output</dt><dd>One 768-value vector per chunk, as shown in the notebook's saved output.</dd><dt>Model</dt><dd><code>embeddinggemma</code>, called through Ollama.</dd></dl>
+        <div class="code-ref"><code>ingestion.py</code> &middot; <code>ingest_chunks()</code><br>Notebook cell 9: <code>ollama.embed(...)</code>, batches of 32</div>
+      </div></details></div>
+      <div class="block"><details><summary>5 · Store the index<small>records → persistent Chroma</small></summary><div class="explanation">
+        <p>Chroma stores the vectors alongside their original text and page metadata, so a vector match can return readable evidence.</p>
+        <dl><dt>Input</dt><dd>ID such as <code>chunk-0</code>, text, vector, and <code>page_number</code>.</dd><dt>Output</dt><dd>Persistent collection <code>bookl_chunks</code> in <code>vector_store/</code>.</dd><dt>Search setting</dt><dd>Cosine distance; smaller distances mean closer vector matches.</dd></dl>
+        <div class="code-ref"><code>ingestion.py</code> &middot; <code>ingest_chunks()</code><br>Notebook cells 8-9: <code>PersistentClient(...)</code>, <code>collection.upsert(...)</code></div>
+      </div></details></div>
+    </div>
+    <div class="bridge"><strong>The link between the two flows:</strong> the notebook or an explicit call to <code>ingestion.py</code> can populate <code>vector_store/bookl_chunks</code> (directory / collection); Streamlit opens that same persistent collection. The app and evaluation runner do not ingest automatically. The book is indexed, not used to train Llama.</div>
+  </section>
+
+  <section class="lane query" id="query" aria-labelledby="query-title">
+    <div class="eyebrow lane-label">Every question · streamlit_app.py</div>
+    <h2 id="query-title">2. Retrieve evidence, then generate an answer</h2>
+    <p>Read left to right. Retrieval finds book passages; generation turns those passages into a response.</p>
+    <div class="flow">
+      <div class="block"><details><summary>1 · Ask a question<small>chat input → question text</small></summary><div class="explanation">
+        <p>Streamlit collects your current question and displays it in the conversation.</p>
+        <dl><dt>Input</dt><dd>Your typed question.</dd><dt>Output</dt><dd>The current question is sent to retrieval and generation. Only the current question is used for query embedding.</dd></dl>
+        <div class="code-ref"><code>streamlit_app.py</code><br><code>st.chat_input(...)</code><br><code>retrieval.retrieve_chunks(...)</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>2 · Embed the question<small>question → query vector</small></summary><div class="explanation">
+        <p>The query uses the same embedding model as the indexed chunks, so their vectors can be compared.</p>
+        <dl><dt>Input</dt><dd>Only the current question.</dd><dt>Output</dt><dd>The question embedding.</dd><dt>Model</dt><dd><code>embeddinggemma</code> via Ollama.</dd></dl>
+        <div class="code-ref"><code>retrieval.py</code><br><code>retrieve_chunks()</code><br><code>ollama.embed(...)</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>3 · Retrieve top 3<small>query vector → passages</small></summary><div class="explanation">
+        <p>Chroma searches the indexed vectors and returns the three nearest matches. These may include more than one chunk from the same page.</p>
+        <dl><dt>Input</dt><dd>Question vector and <code>TOP_K = 3</code>.</dd><dt>Output</dt><dd>Chunk IDs, texts, page metadata, and distances.</dd><dt>Current behavior</dt><dd>No reranking or distance cutoff is applied. Three matches do not guarantee that the book answers the question.</dd></dl>
+        <div class="code-ref"><code>retrieval.py</code><br><code>retrieve_chunks()</code><br><code>collection.query(...)</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>4 · Assemble context<small>passages → labeled evidence</small></summary><div class="explanation">
+        <p>The code formats each passage with a label such as <code>[PDF page 220]</code> and joins them with separators.</p>
+        <dl><dt>Input</dt><dd>Retrieved texts, pages, and distances.</dd><dt>Output</dt><dd>A context string for Llama, plus a separate source list for the UI.</dd><dt>Useful distinction</dt><dd>Distances go to the source list; they are not included in the model's context string.</dd></dl>
+        <div class="code-ref"><code>retrieval.py</code><br><code>format_context()</code><br><code>format_sources()</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>5 · Generate an answer<small>prompt + evidence → response</small></summary><div class="explanation">
+        <p>Llama receives a system instruction, prior chat turns, and the current question with retrieved PDF context.</p>
+        <dl><dt>Input</dt><dd>System prompt + chat history + question + context.</dd><dt>Output</dt><dd>Answer text from <code>llama3.2</code>.</dd><dt>Instruction</dt><dd>Use only supplied PDF context, acknowledge insufficient evidence, and include PDF page numbers. These are prompt instructions, not programmatic checks.</dd></dl>
+        <div class="code-ref"><code>generation.py</code><br><code>build_messages()</code><br><code>generate_answer()</code></div>
+      </div></details></div>
+      <div class="block"><details><summary>6 · Display and remember<small>answer + sources → chat UI</small></summary><div class="explanation">
+        <p>Streamlit displays the answer and a “Retrieved sources” expander for the current response.</p>
+        <dl><dt>Input</dt><dd>Answer text and formatted source list.</dd><dt>Output</dt><dd>Answer, retrieved page numbers, distances, and the first 500 characters of each source. Chunk IDs are returned by retrieval but are not shown in the current UI.</dd><dt>State update</dt><dd>Successful question/answer pairs are appended to session chat history and display messages.</dd></dl>
+        <div class="code-ref"><code>streamlit_app.py</code><br><code>st.markdown(answer)</code><br><code>st.session_state.chat_history</code></div>
+      </div></details></div>
+    </div>
+    <div class="memory"><strong>Separate inputs:</strong> Streamlit sends the current question to retrieval and generation. <code>st.session_state.chat_history</code> goes to generation only; it does not feed query embedding or Chroma search. A follow-up like &ldquo;How does it work?&rdquo; may therefore retrieve weak evidence even though Llama sees the earlier conversation.</div>
+    <div class="bridge"><strong>Source display branch:</strong> <code>format_context()</code> sends page-labeled text to the prompt, while <code>format_sources()</code> sends page, distance, and snippet details directly to the Streamlit source expander.</div>
+  </section>
+
+  <section class="learning" id="understand" aria-label="Design notes">
+    <article class="note"><h3>Two models, two jobs</h3><p><code>embeddinggemma</code> converts text into vectors for search. <code>llama3.2</code> writes the answer from the prompt and evidence. Changing the embedding model requires rebuilding a compatible index; changing the answer model does not itself require re-embedding the book.</p></article>
+    <article class="note"><h3>Three forms of memory</h3><p><strong>Chroma:</strong> persists book chunks on disk across app restarts.<br><strong>Chat history:</strong> lives in the Streamlit session and feeds generation.<br><strong>UI messages:</strong> replay the chat display; retrieved source lists are not saved with those messages.</p></article>
+    <article class="note"><h3>Chunk size is measured in characters</h3><p>Your splitter uses Python string slices, not token counts or sentences. Overlap reduces boundary loss, but words and explanations can still be split. At most roughly 3,000 chunk characters enter each answer's retrieved context, plus labels and separators.</p></article>
+    <article class="note"><h3>Index reuse has a limitation</h3><p>The notebook skips embedding when stored record count equals expected chunk count. That checks quantity, but cannot prove that the PDF, chunk settings, or embedding model are unchanged. Index freshness would need additional checks.</p></article>
+    <article class="note wide"><h3>Evaluation is a separate workflow</h3><p><code>evals/evaluation_dataset.json</code> preserves the 20 questions and their page-level labels from <code>Evaluation/MMDS_RAG_evaluation_dataset_20.csv</code>. <code>evaluation.py</code> runs dense retrieval metrics and writes per-question JSON/CSV files plus an experiment summary in <code>experiments/results.csv</code>. These are page-level proxy metrics, not chunk-level judgments. Generated answers still need human review for correctness, grounding, completeness, and citation quality; no automatic answer judge is used.</p>
+    <article class="note wide"><h3>Which simple visualization should you use?</h3><div class="table-wrap"><table>
+      <thead><tr><th>Option</th><th>Best use</th><th>Trade-off</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Standalone HTML — start here</strong></td><td>Learning each block with expandable inputs, outputs, and code references.</td><td>Opens directly in a browser; diagram content is maintained manually.</td></tr>
+        <tr><td>Mermaid diagrams</td><td>Compact flowcharts and sequence diagrams maintained as text in documentation.</td><td>An HTML page needs Mermaid's renderer bundled locally or loaded externally.</td></tr>
+        <tr><td>SVG inside HTML</td><td>A precise diagram with custom arrows and branches.</td><td>More layout work as the architecture changes.</td></tr>
+        <tr><td>Streamlit trace view</td><td>Examining a real question's retrieval results, prompt, and answer.</td><td>Requires app changes and a running index and Ollama service.</td></tr>
+      </tbody>
+    </table></div><p>After you can explain both flows, add a real request trace to Streamlit. The architecture page explains what should happen; a trace shows what happened for one question.</p></article>
+  </section>
+  <footer>
+    <p>Reviewed 3 November 2026. This page is a manually maintained snapshot, not live telemetry. Notebook cell numbers are zero-based.</p>
+    <p>Source files: <a href="../rag_exploration.ipynb">rag_exploration.ipynb</a> · <a href="../streamlit_app.py">streamlit_app.py</a> · <a href="../Evaluation/MMDS_RAG_evaluation_dataset_20.csv">evaluation questions</a>. Your editor is the easiest way to inspect Python and notebook source.</p>
+    <p>Visualization references: <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details">HTML disclosure blocks</a> · <a href="https://mermaid.js.org/intro/">Mermaid diagrams</a>.</p>
+  </footer>
+</main>
+</body>
+</html>

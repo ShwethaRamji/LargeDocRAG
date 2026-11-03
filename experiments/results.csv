@@ -1,0 +1,2 @@
+Experiment name,Date,Retrieval method,Embedding model,Top-K,Precision@K,Recall@K,MRR,Hit Rate@K,Average retrieval latency,Notes
+dense_baseline,2026-11-02,dense cosine similarity,embeddinggemma,3,0.2333333333333333,0.7,0.45,0.7,0.11848517498874571,Page-level labels from the existing 20-question evaluation CSV.

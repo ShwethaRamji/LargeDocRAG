@@ -1,0 +1,282 @@
+[
+  {
+    "question_id": "Q001",
+    "question": "What is the main focus of data mining in this book?",
+    "expected_answer": "The book focuses on data mining of very large amounts of data—data so large that it does not fit in main memory.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      3
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Basic factual retrieval",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q002",
+    "question": "How does a MapReduce computation process input data?",
+    "expected_answer": "Map tasks process input chunks and produce key-value pairs; the pairs are grouped by key and sent to Reduce tasks; Reduce tasks combine the values associated with each key.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      43
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Process explanation",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q003",
+    "question": "Why are files replicated in a distributed file system?",
+    "expected_answer": "Replication prevents data from becoming unavailable or permanently lost when a compute node or disk fails.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      41
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Why/how question",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q004",
+    "question": "What is the Jaccard similarity between two sets?",
+    "expected_answer": "It is the size of the intersection of the two sets divided by the size of their union: |S ∩ T| / |S ∪ T|.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      92
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition + formula",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q005",
+    "question": "What is the purpose of shingling documents?",
+    "expected_answer": "Shingling represents documents as sets so that textual similarity between documents can be treated as a set-similarity problem.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      95
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Concept explanation",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q006",
+    "question": "Can a Bloom filter incorrectly reject an element that is actually in the set?",
+    "expected_answer": "No. If a key is in the set, it will surely pass through the Bloom filter. A Bloom filter can instead produce false positives for keys that are not in the set.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      158
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Edge-case/factual",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q007",
+    "question": "What is term spam?",
+    "expected_answer": "Term spam is the introduction into Web pages of words that misrepresent what the page is about.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      214
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q008",
+    "question": "What is the support of an itemset?",
+    "expected_answer": "The support of a set of items is the number of baskets containing all those items.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      254
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q009",
+    "question": "What is the confidence of an association rule?",
+    "expected_answer": "It is the probability that item j is also in a basket containing itemset I.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      254
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q010",
+    "question": "How does the monotonicity property help the A-Priori algorithm?",
+    "expected_answer": "If an itemset is not frequent, none of its supersets can be frequent, so those supersets do not need to be counted.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      254
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Algorithm reasoning",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q011",
+    "question": "How does the basic k-means algorithm assign points to clusters?",
+    "expected_answer": "It assigns each point to the cluster whose centroid is closest, then adjusts that cluster's centroid to account for the point.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      273
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Algorithm explanation",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q012",
+    "question": "What are two unexpected properties associated with the curse of dimensionality?",
+    "expected_answer": "In high-dimensional spaces, random points are almost always at about the same distance, and random vectors are almost always orthogonal.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      294
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Concept explanation",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q013",
+    "question": "What is a utility matrix in a recommendation system?",
+    "expected_answer": "It is a matrix containing, for each user-item pair, a value representing what is known about the user's preference for that item; most entries are typically unknown.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      326
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q014",
+    "question": "What is the difference between content-based and collaborative-filtering recommendation systems?",
+    "expected_answer": "Content-based systems use common features of items to measure similarity, while collaborative filtering uses similarities among users and/or items based on their preferences.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      325
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Comparison",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q015",
+    "question": "What is UV-decomposition used for in recommendation systems?",
+    "expected_answer": "It approximates a utility matrix M as the product UV, using a smaller number of dimensions to represent users and items and to estimate unknown entries.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      346
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Application/explanation",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q016",
+    "question": "What is the goal of dimensionality reduction?",
+    "expected_answer": "The goal is to replace a large matrix with smaller matrices that approximately reconstruct the original while using fewer rows or columns and preserving useful information.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      423
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q017",
+    "question": "What is an eigenvalue and its corresponding eigenvector?",
+    "expected_answer": "For a square matrix M, λ is an eigenvalue and e is its corresponding eigenvector if Me = λe, where e is a nonzero vector.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      424
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition + formula",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q018",
+    "question": "What is a perceptron?",
+    "expected_answer": "A perceptron is a linear binary classifier. It uses a weight vector and a threshold to classify an input vector as +1 or −1.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      465
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Definition",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q019",
+    "question": "What happens when a machine-learning model overfits its training set?",
+    "expected_answer": "It conforms to peculiarities of the training-set data that are not present in the data as a whole, so it can perform worse on the test set than on the training set.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      500
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Concept explanation",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  },
+  {
+    "question_id": "Q020",
+    "question": "How does recursive doubling reduce the number of MapReduce rounds needed for transitive closure?",
+    "expected_answer": "It joins the path relation with itself at each round, doubling the maximum path length that can contribute; therefore the number of rounds is the base-2 logarithm of the graph's diameter.",
+    "relevant_chunk_ids": [],
+    "relevant_pdf_pages": [
+      419
+    ],
+    "relevant_document": "data/bookL.pdf",
+    "question_type": "Algorithm reasoning",
+    "answerable": true,
+    "difficulty": "unrated",
+    "notes": "Page-level gold label copied from Evaluation/MMDS_RAG_evaluation_dataset_20.csv; no chunk-level relevance annotation is available."
+  }
+]
