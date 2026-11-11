@@ -19,19 +19,24 @@ LargeDocRAG/
 ├── streamlit_app.py                 # Existing Streamlit entry point
 ├── requirements.txt
 ├── README.md
+├── architecture/
+│   ├── rag_pipeline.html             # Detailed, manually maintained architecture
+│   └── rag_pipeline_preview.png      # Screenshot preview of the architecture page
 ├── src/largedocrag/
-│   ├── config.py                    # Shared paths and baseline settings
-│   ├── ingestion.py                 # PDF extraction, chunking, and explicit ingestion helpers
-│   ├── retrieval.py                 # Dense query and context/source formatting
-│   ├── generation.py                # Grounded Ollama prompt and response call
-│   └── evaluation.py                # Page metrics and human response-review helpers
-├── evals/evaluation_dataset.json    # Preserved questions with page-level labels
-├── experiments/results.csv          # Summary header; populated only by a real run
-├── tests/                            # Unit tests with mocked external services
-├── Evaluation/                       # Original evaluation CSV (unchanged)
-├── data/bookL.pdf                    # Source PDF
-├── rag_exploration.ipynb              # Original exploration notebook (unchanged)
-└── vector_store/                      # Existing persistent ChromaDB data
+│   ├── config.py                     # Shared paths and baseline settings
+│   ├── ingestion.py                  # PDF extraction, chunking, explicit ingestion helpers
+│   ├── retrieval.py                  # Dense query and context/source formatting
+│   ├── generation.py                 # Grounded Ollama prompt, answer, and token usage
+│   └── evaluation.py                 # Retrieval metrics and answer-run generation
+├── evals/evaluation_dataset.json     # 20 questions with expected answers and page labels
+├── experiments/
+│   ├── results.csv                   # Aggregate page-level retrieval results
+│   └── retrieval_runs/               # Timestamped JSON/CSV runs and judge workbook
+├── tests/                             # Unit tests with mocked external services
+├── Evaluation/                        # Original evaluation data and earlier review workbook
+├── data/bookL.pdf                     # Source PDF
+├── rag_exploration.ipynb               # Original exploration notebook (unchanged)
+└── vector_store/                       # Existing persistent ChromaDB data
 ```
 
 ## Architecture
@@ -58,6 +63,15 @@ flowchart LR
     LLM --> Answer[Answer with page citations]
     Answer --> UI
   end
+
+  subgraph Eval[Offline evaluation]
+    Dataset[20-question evaluation dataset] --> Runner[Evaluation runner]
+    Runner -->|question| Search
+    Runner -->|retrieved context| Prompt
+    Answer --> RunJSON[Timestamped JSON<br/>answers + full retrieved chunks + metrics]
+    RunJSON --> Judge[External LLM-as-a-Judge review]
+    Judge --> JudgeXLSX[LLM_as_a_Judge_LargeDocRAG_Results.xlsx]
+  end
 ```
 
 ## Ingestion flow
@@ -70,7 +84,7 @@ Ingestion functions receive an existing collection explicitly. They do not creat
 
 `retrieval.py` embeds a question with `embeddinggemma`, calls ChromaDB's dense `query` with Top-K 3, and returns stored chunk IDs, text, metadata, and cosine distances. It formats the context with the same `[PDF page N]` labels used by the original app.
 
-`generation.py` constructs the original system instruction, adds prior chat turns, and sends the question and retrieved context to `llama3.2`. The model is instructed to use only the supplied PDF context, say when it is insufficient, and cite relevant PDF pages. `streamlit_app.py` remains the entry point and handles the interface, session state, sidebar, and source display.
+`generation.py` constructs the system instruction, adds prior chat turns, and sends the question and retrieved context to `llama3.2`. The model is instructed to use only the supplied PDF context, say when it is insufficient, and cite relevant PDF pages. Before each answer request, the complete message payload is printed to the terminal. Ollama's prompt and answer token counts are shown for each answer and the latest question in the Streamlit sidebar. `streamlit_app.py` remains the entry point and handles the interface, session state, and source display.
 
 ## Configuration
 
@@ -107,7 +121,7 @@ Run the dense retrieval baseline from the project directory:
 python -m src.largedocrag.evaluation
 ```
 
-The runner embeds each question, queries the existing collection, and saves per-question JSON and Excel-friendly CSV files under `experiments/retrieval_runs/`, plus an aggregate row in `experiments/results.csv`. It only queries the collection; it does not ingest, update, or delete vectors. The summary CSV contains one row per experiment; the timestamped run CSV contains one row per question.
+The runner embeds each question, queries the existing collection, generates an answer from those retrieved chunks, and saves per-question JSON and Excel-friendly CSV files under `experiments/retrieval_runs/`, plus an aggregate row in `experiments/results.csv`. The JSON captures each retrieved chunk's text and provenance, the expected and generated answers, token counts, and page-level retrieval metrics. The runner only queries the collection; it does not ingest, update, or delete vectors. The summary CSV contains one row per experiment; the timestamped run CSV contains one row per question. The November 5, 2026 run is `experiments/retrieval_runs/20261105T155309+0530.json`.
 
 ### How page-level metrics are calculated
 
@@ -115,9 +129,11 @@ The existing labels identify a relevant source page, not a relevant chunk. For t
 
 The existing 20 questions provide answerable examples with page labels. No new ambiguous, unanswerable, multi-passage, or adversarial questions have been invented. Add and label those examples before evaluating those categories.
 
-### Human response review
+### LLM-as-a-Judge results
 
-`evaluation.py` provides a blank review-record structure with fields for correctness, relevance, faithfulness, groundedness, completeness, and citation quality. Values begin as `null` so a reviewer can score generated answers manually. There is no LLM-as-a-Judge implementation.
+A basic LLM-as-a-Judge review has been completed separately from the Python evaluation runner. The results are in `experiments/retrieval_runs/LLM_as_a_Judge_LargeDocRAG_Results.xlsx`, covering all 20 questions from the November 5 run. The workbook reports average scores of 4.25 for correctness, 4.55 for groundedness, 5.00 for relevance, 4.25 for completeness, and 4.51 overall. The judge model, judge prompt, and detailed scoring rubric are not recorded in the workbook, so these scores are useful as an initial review rather than a fully reproducible evaluation. Judge scoring is not automated by `evaluation.py`.
+
+`Evaluation/Results.xlsx` is an earlier yes/no review using a different rubric; it is kept separately from the LLM-as-a-Judge workbook.
 
 ## Tests
 
@@ -134,5 +150,5 @@ Ollama and ChromaDB operations in the tests are mocked. The tests cover the exis
 - Retrieval is dense vector similarity only; no BM25, hybrid search, or reranking is used.
 - Evaluation relevance is labeled at PDF-page level because chunk-level judgments are not present.
 - PDF extraction uses PyMuPDF's page text output; no OCR pipeline or separate cleaning step is present.
-- The answer model can still produce unsupported text despite the grounding prompt, so response quality and citations need human review.
+- The answer model can still produce unsupported text despite the grounding prompt. The recorded LLM-as-a-Judge review is a basic evaluation and should not be treated as a substitute for a documented, reproducible rubric or human review.
 - The original notebook remains an exploration artifact; the Streamlit app is the application entry point.

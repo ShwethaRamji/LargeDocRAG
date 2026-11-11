@@ -1,0 +1,930 @@
+{
+  "run_id": "20261105T155309+0530",
+  "retrieval_method": "dense cosine similarity",
+  "embedding_model": "embeddinggemma",
+  "answer_model": "llama3.2",
+  "top_k": 3,
+  "aggregate": {
+    "precision_at_k": 0.2333333333333333,
+    "recall_at_k": 0.7,
+    "mrr": 0.45,
+    "hit_rate_at_k": 0.7,
+    "average_retrieval_latency": 0.0394178000104148
+  },
+  "questions": [
+    {
+      "question_id": "Q001",
+      "question": "What is the main focus of data mining in this book?",
+      "relevant_pdf_pages": [
+        3
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-3",
+          "page_number": 3,
+          "distance": 0.28509974479675293,
+          "text": "f data, that is, data so large\nit does not ﬁt in main memory. Because of the emphasis on size, many of our\nexamples are about the Web or data derived from the Web. Further, the book\ntakes an algorithmic point of view: data mining is about applying algorithms\nto data, rather than using data to “train” a machine-learning engine of some\nsort. The principal topics covered are:\n1. Distributed ﬁle systems and map-reduce as a tool for creating parallel\nalgorithms that succeed on very large amounts of data.\n2. Similarity search, including the key techniques of minhashing and locality-\nsensitive hashing.\n3. Data-stream processing and specialized algorithms for dealing with data\nthat arrives so fast it must be processed immediately or lost.\n4. The technology of search engines, including Google’s PageRank, link-spam\ndetection, and the hubs-and-authorities approach.\n5. Frequent-itemset mining, including association rules, market-baskets, the\nA-Priori Algorithm and its improvements.\n6. Algorithms f"
+        },
+        {
+          "chunk_id": "chunk-116",
+          "page_number": 38,
+          "distance": 0.38581931591033936,
+          "text": "20\nCHAPTER 1. DATA MINING\n"
+        },
+        {
+          "chunk_id": "chunk-103",
+          "page_number": 33,
+          "distance": 0.38804030418395996,
+          "text": "t word appears (a) once (b) ﬁve times?\n! Exercise 1.3.3: Suppose hash-keys are drawn from the population of all non-\nnegative integers that are multiples of some constant c, and hash function h(x)\nis x mod 15. For what values of c will h be a suitable hash function, i.e., a\nlarge random choice of hash-keys will be divided roughly equally into buckets?\nExercise 1.3.4: In terms of e, give approximations to\n(a) (1.01)500 (b) (1.05)1000 (c) (0.9)40\nExercise 1.3.5: Use the Taylor expansion of ex to compute, to three decimal\nplaces: (a) e1/10 (b) e−1/10 (c) e2.\n1.4\nOutline of the Book\nThis section gives brief summaries of the remaining chapters of the book.\nChapter 2 is not about data mining per se. Rather, it introduces us to the\nMapReduce methodology for exploiting parallelism in computing clouds (racks\n"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        3,
+        38,
+        33
+      ],
+      "latency_seconds": 0.10010629997123033,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "The book focuses on data mining of very large amounts of data—data so large that it does not fit in main memory.",
+      "question_type": "Basic factual retrieval",
+      "answerable": true,
+      "generated_answer": "The main focus of data mining in this book appears to be the application of algorithms to data, rather than using data to \"train\" a machine-learning engine (as mentioned on PDF page 3). The book covers various topics related to data mining, including distributed file systems, similarity search, data-stream processing, search engine technology, and frequent-itemset mining, among others. (See PDF page 3 and chapter chapter number 1: DATA MINING)",
+      "token_usage": {
+        "prompt_tokens": 581,
+        "answer_tokens": 93,
+        "total_tokens": 674
+      }
+    },
+    {
+      "question_id": "Q002",
+      "question": "How does a MapReduce computation process input data?",
+      "relevant_pdf_pages": [
+        43
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-129",
+          "page_number": 43,
+          "distance": 0.4140111207962036,
+          "text": "2.2. MAPREDUCE\n25\nthe possibility that one of these tasks will fail to execute. In brief, a MapReduce\ncomputation executes as follows:\n1. Some number of Map tasks each are given one or more chunks from a\ndistributed ﬁle system. These Map tasks turn the chunk into a sequence\nof key-value pairs. The way key-value pairs are produced from the input\ndata is determined by the code written by the user for the Map function.\n2. The key-value pairs from each Map task are collected by a master con-\ntroller and sorted by key. The keys are divided among all the Reduce\ntasks, so all key-value pairs with the same key wind up at the same Re-\nduce task.\n3. The Reduce tasks work on one key at a time, and combine all the val-\nues associated with that key in some way. The manner of combination\nof values is determined by the code written by the user for the Reduce\nfunction.\nFigure 2.2 suggests this computation.\nInput\nchunks\nGroup\nby keys\nKey−value\n(k,v)\npairs\ntheir values\nKeys with all\noutput\nCombined\nMap\n"
+        },
+        {
+          "chunk_id": "chunk-144",
+          "page_number": 47,
+          "distance": 0.4270564317703247,
+          "text": "s, that task is given all the ﬁles that form its input.\nThe Reduce task executes code written by the user and writes its output to a\nﬁle that is part of the surrounding distributed ﬁle system.\n2.2.6\nCoping With Node Failures\nThe worst thing that can happen is that the compute node at which the Master\nis executing fails. In this case, the entire MapReduce job must be restarted.\nBut only this one node can bring the entire process down; other failures will be\nmanaged by the Master, and the MapReduce job will complete eventually.\nSuppose the compute node at which a Map worker resides fails. This fail-\nure will be detected by the Master, because it periodically pings the Worker\nprocesses. All the Map tasks that were assigned to this Worker will have to\nbe redone, even if they had completed. The reason for redoing completed Map\n"
+        },
+        {
+          "chunk_id": "chunk-141",
+          "page_number": 46,
+          "distance": 0.4284880757331848,
+          "text": "tion\nLet us now consider in more detail how a program using MapReduce is executed.\nFigure 2.3 oﬀers an outline of how processes, tasks, and ﬁles interact. Taking\nadvantage of a library provided by a MapReduce system such as Hadoop, the\nuser program forks a Master controller process and some number of Worker\nprocesses at diﬀerent compute nodes. Normally, a Worker handles either Map\ntasks (a Map worker) or Reduce tasks (a Reduce worker), but not both.\nThe Master has many responsibilities. One is to create some number of\nMap tasks and some number of Reduce tasks, these numbers being selected\nby the user program. These tasks will be assigned to Worker processes by the\nMaster. It is reasonable to create one Map task for every chunk of the input\nﬁle(s), but we may wish to create fewer Reduce tasks. The reason for limiting\nthe number of Reduce tasks is that it is necessary for each Map task to create\nan intermediate ﬁle for each Reduce task, and if there are too many Reduce\ntasks the number o"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        43,
+        47,
+        46
+      ],
+      "latency_seconds": 0.03602479991968721,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "Map tasks process input chunks and produce key-value pairs; the pairs are grouped by key and sent to Reduce tasks; Reduce tasks combine the values associated with each key.",
+      "question_type": "Process explanation",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, a MapReduce computation processes input data as follows:\n\n1. Some number of Map tasks are given one or more chunks from a distributed file system. (PDF page 43, step 1)\n2. The Map tasks turn the chunk into a sequence of key-value pairs, with the key-value pairs being determined by the code written by the user for the Map function. (PDF page 43, step 1)\n3. The key-value pairs from each Map task are collected by a master controller and sorted by key. (PDF page 43, step 2)\n4. The keys are divided among all the Reduce tasks, so all key-value pairs with the same key wind up at the same Reduce task. (PDF page 43, step 2)\n5. The Reduce tasks work on one key at a time, and combine all the values associated with that key in some way, as determined by the code written by the user for the Reduce function. (PDF page 43, step 3)\n\nIn summary, MapReduce computes input data by breaking it down into chunks, processing each chunk with a Map task to produce key-value pairs, sorting and grouping the key-value pairs, and then having Reduce tasks combine the values for each key.",
+      "token_usage": {
+        "prompt_tokens": 777,
+        "answer_tokens": 259,
+        "total_tokens": 1036
+      }
+    },
+    {
+      "question_id": "Q003",
+      "question": "Why are files replicated in a distributed file system?",
+      "relevant_pdf_pages": [
+        41
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-124",
+          "page_number": 41,
+          "distance": 0.45072317123413086,
+          "text": "2.1. DISTRIBUTED FILE SYSTEMS\n23\nSwitch\nRacks of compute nodes\nFigure 2.1: Compute nodes are organized into racks, and racks are intercon-\nnected by a switch\nIt is a fact of life that components fail, and the more components, such as\ncompute nodes and interconnection networks, a system has, the more frequently\nsomething in the system will not be working at any given time. For systems\nsuch as Fig. 2.1, the principal failure modes are the loss of a single node (e.g.,\nthe disk at that node crashes) and the loss of an entire rack (e.g., the network\nconnecting its nodes to each other and to the outside world fails).\nSome important calculations take minutes or even hours on thousands of\ncompute nodes. If we had to abort and restart the computation every time\none component failed, then the computation might never complete successfully.\nThe solution to this problem takes two forms:\n1. Files must be stored redundantly. If we did not duplicate the ﬁle at several\ncompute nodes, then if one node f"
+        },
+        {
+          "chunk_id": "chunk-125",
+          "page_number": 41,
+          "distance": 0.48961353302001953,
+          "text": "ation might never complete successfully.\nThe solution to this problem takes two forms:\n1. Files must be stored redundantly. If we did not duplicate the ﬁle at several\ncompute nodes, then if one node failed, all its ﬁles would be unavailable\nuntil the node is replaced. If we did not back up the ﬁles at all, and the\ndisk crashes, the ﬁles would be lost forever. We discuss ﬁle management\nin Section 2.1.2.\n2. Computations must be divided into tasks, such that if any one task fails\nto execute to completion, it can be restarted without aﬀecting other tasks.\nThis strategy is followed by the MapReduce programming system that we\nintroduce in Section 2.2.\n2.1.2\nLarge-Scale File-System Organization\nTo exploit cluster computing, ﬁles must look and behave somewhat diﬀerently\nfrom the conventional ﬁle systems found on single computers. This new ﬁle\nsystem, often called a distributed ﬁle system or DFS (although this term has\nhad other meanings in the past), is typically used as follows.\n"
+        },
+        {
+          "chunk_id": "chunk-121",
+          "page_number": 40,
+          "distance": 0.49017101526260376,
+          "text": "s of MapReduce we are\nable to give families of algorithms that optimally trade the communication cost\nagainst the degree of parallelism.\n2.1\nDistributed File Systems\nMost computing is done on a single processor, with its main memory, cache, and\nlocal disk (a compute node). In the past, applications that called for parallel\nprocessing, such as large scientiﬁc calculations, were done on special-purpose\nparallel computers with many processors and specialized hardware. However,\nthe prevalence of large-scale Web services has caused more and more computing\nto be done on installations with thousands of compute nodes operating more\nor less independently. In these installations, the compute nodes are commodity\nhardware, which greatly reduces the cost compared with special-purpose parallel\nmachines.\nThese new computing facilities have given rise to a new generation of pro-\ngramming systems. These systems take advantage of the power of parallelism\nand at the same time avoid the reliability proble"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        41,
+        40
+      ],
+      "latency_seconds": 0.03655009996145964,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "Replication prevents data from becoming unavailable or permanently lost when a compute node or disk fails.",
+      "question_type": "Why/how question",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, files are replicated in a distributed file system to ensure availability and reliability in the event of component failures. If files were not stored redundantly, and a node failed, all its files would be unavailable until the node is replaced, and if the disk crashes, the files would be lost forever. Replication allows files to be available even if one node or rack fails, thereby preventing losses due to component failures. (See PDF page 41)",
+      "token_usage": {
+        "prompt_tokens": 782,
+        "answer_tokens": 95,
+        "total_tokens": 877
+      }
+    },
+    {
+      "question_id": "Q004",
+      "question": "What is the Jaccard similarity between two sets?",
+      "relevant_pdf_pages": [
+        92
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-320",
+          "page_number": 100,
+          "distance": 0.30686575174331665,
+          "text": "ces the same value for two sets equals the Jaccard similarity\nof those sets.\nTo see why, we need to picture the columns for those two sets. If we restrict\nourselves to the columns for sets S1 and S2, then rows can be divided into three\nclasses:\n1. Type X rows have 1 in both columns.\n2. Type Y rows have 1 in one of the columns and 0 in the other.\n"
+        },
+        {
+          "chunk_id": "chunk-289",
+          "page_number": 91,
+          "distance": 0.3867380619049072,
+          "text": "ing that applies for other deﬁnitions of “similarity.”\n3.1\nApplications of Near-Neighbor Search\nWe shall focus initially on a particular notion of “similarity”: the similarity of\nsets by looking at the relative size of their intersection. This notion of similarity\nis called “Jaccard similarity,” and will be introduced in Section 3.1.1. We then\nexamine some of the uses of ﬁnding similar sets. These include ﬁnding textually\nsimilar documents and collaborative ﬁltering by ﬁnding similar customers and\nsimilar products. In order to turn the problem of textual similarity of documents\n73\n"
+        },
+        {
+          "chunk_id": "chunk-356",
+          "page_number": 112,
+          "distance": 0.4067293405532837,
+          "text": " the section, we deﬁne the Jaccard distance\nof sets by d(x, y) = 1 −SIM(x, y). That is, the Jaccard distance is 1 minus the\nratio of the sizes of the intersection and union of sets x and y. We must verify\nthat this function is a distance measure.\n1. d(x, y) is nonnegative because the size of the intersection cannot exceed\nthe size of the union.\n2. d(x, y) = 0 if x = y, because x ∪x = x ∩x = x. However, if x̸ = y, then\nthe size of x ∩y is strictly less than the size of x ∪y, so d(x, y) is strictly\npositive.\n3. d(x, y) = d(y, x) because both union and intersection are symmetric; i.e.,\nx ∪y = y ∪x and x ∩y = y ∩x.\n4. For the triangle inequality, recall from Section 3.3.3 that SIM(x, y) is the\nprobability a random minhash function maps x and y to the same value.\nThus, the Jaccard distance d(x, y) is the probability that a random min-\nhash function does not send x and y to the same value. We can therefore\ntranslate the condition d(x, y) ≤d(x, z) + d(z, y) to the statement that if\nh is a ran"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        100,
+        91,
+        112
+      ],
+      "latency_seconds": 0.03865710005629808,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0,
+      "expected_answer": "It is the size of the intersection of the two sets divided by the size of their union: |S ∩ T| / |S ∪ T|.",
+      "question_type": "Definition + formula",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, the Jaccard similarity between two sets is defined as the ratio of the sizes of the intersection and union of the sets. Specifically, it is mentioned on page 91 that \"this notion of similarity is called “Jaccard similarity,” and will be introduced in Section 3.1.1.\"\n\nHowever, the PDF context does not explicitly define the Jaccard similarity as an equation or a formula. It only mentions that the Jaccard similarity is related to the relative size of the intersection of the sets.\n\nTo calculate the Jaccard similarity, one would typically need to calculate the intersection and union of the two sets, and then take the ratio of their sizes. However, without further information or a specific formula, it is not possible to provide a numerical answer.\n\nIf you could provide more context or clarify what you mean by \"Jaccard similarity between two sets\", I may be able to help further.",
+      "token_usage": {
+        "prompt_tokens": 660,
+        "answer_tokens": 192,
+        "total_tokens": 852
+      }
+    },
+    {
+      "question_id": "Q005",
+      "question": "What is the purpose of shingling documents?",
+      "relevant_pdf_pages": [
+        95
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-308",
+          "page_number": 97,
+          "distance": 0.5236946940422058,
+          "text": "3.2. SHINGLING OF DOCUMENTS\n79\nhave high point-value in Scrabble are rare. Thus, even short emails will have\nmany 5-shingles consisting of common letters, and the chances of unrelated\nemails sharing these common shingles is greater than would be implied by the\ncalculation in the paragraph above. A good rule of thumb is to imagine that\nthere are only 20 characters and estimate the number of k-shingles as 20k. For\nlarge documents, such as research articles, choice k = 9 is considered safe.\n3.2.3\nHashing Shingles\nInstead of using substrings directly as shingles, we can pick a hash function\nthat maps strings of length k to some number of buckets and treat the resulting\nbucket number as the shingle. The set representing a document is then the\nset of integers that are bucket numbers of one or more k-shingles that appear\nin the document. For instance, we could construct the set of 9-shingles for a\ndocument and then map each of those 9-shingles to a bucket number in the\nrange 0 to 232 −1. Thus"
+        },
+        {
+          "chunk_id": "chunk-302",
+          "page_number": 95,
+          "distance": 0.5602433085441589,
+          "text": "ar in diﬀerent orders in the two docu-\nments. In this section, we introduce the simplest and most common approach,\nshingling, as well as an interesting variation.\n3.2.1\nk-Shingles\nA document is a string of characters. Deﬁne a k-shingle for a document to be\nany substring of length k found within the document. Then, we may associate\n2Although the union for bags is normally (e.g., in the SQL standard) deﬁned to have the\nsum of the number of copies in the two bags, this deﬁnition causes some inconsistency with\nthe Jaccard similarity for sets. Under this deﬁnition of bag union, the maximum Jaccard\nsimilarity is 1/2, not 1, since the union of a set with itself has twice as many elements as the\nintersection of the same set with itself. If we prefer to have the Jaccard similarity of a set\nwith itself be 1, we can redeﬁne the union of bags to have each element appear the maximum\nnumber of times it appears in either of the two bags. This change does not simply double the\nsimilarity in each case,"
+        },
+        {
+          "chunk_id": "chunk-304",
+          "page_number": 96,
+          "distance": 0.5627423524856567,
+          "text": "78\nCHAPTER 3. FINDING SIMILAR ITEMS\nwith each document the set of k-shingles that appear one or more times within\nthat document.\nExample 3.3 : Suppose our document D is the string abcdabd, and we pick\nk = 2. Then the set of 2-shingles for D is {ab, bc, cd, da, bd}.\nNote that the substring ab appears twice within D, but appears only once\nas a shingle. A variation of shingling produces a bag, rather than a set, so each\nshingle would appear in the result as many times as it appears in the document.\nHowever, we shall not use bags of shingles here.\n✷\nThere are several options regarding how white space (blank, tab, newline,\netc.) is treated. It probably makes sense to replace any sequence of one or more\nwhite-space characters by a single blank. That way, we distinguish shingles that\ncover two or more words from those that do not.\nExample 3.4 : If we use k = 9, but eliminate whitespace altogether, then we\nwould see some lexical similarity in the sentences “The plane was ready for\ntouch down”."
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        97,
+        95,
+        96
+      ],
+      "latency_seconds": 0.035519100027158856,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "Shingling represents documents as sets so that textual similarity between documents can be treated as a set-similarity problem.",
+      "question_type": "Concept explanation",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, the purpose of shingling documents is to create a set of substrings (or \"k-shingles\") of a fixed length k that appear in the document, where each k-shingle is mapped to a bucket number. The set of bucket numbers represents the shingles that appear in the document. The purpose of shingling is to create a compact representation of the document's content, which can be used for similarity search or other applications.",
+      "token_usage": {
+        "prompt_tokens": 865,
+        "answer_tokens": 96,
+        "total_tokens": 961
+      }
+    },
+    {
+      "question_id": "Q006",
+      "question": "Can a Bloom filter incorrectly reject an element that is actually in the set?",
+      "relevant_pdf_pages": [
+        158
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-508",
+          "page_number": 158,
+          "distance": 0.4120299220085144,
+          "text": "140\nCHAPTER 4. MINING DATA STREAMS\nof ﬁlters, each of which would eliminate 7/8th of the remaining spam.\n4.3.2\nThe Bloom Filter\nA Bloom ﬁlter consists of:\n1. An array of n bits, initially all 0’s.\n2. A collection of hash functions h1, h2, . . . , hk. Each hash function maps\n“key” values to n buckets, corresponding to the n bits of the bit-array.\n3. A set S of m key values.\nThe purpose of the Bloom ﬁlter is to allow through all stream elements whose\nkeys are in S, while rejecting most of the stream elements whose keys are not\nin S.\nTo initialize the bit array, begin with all bits 0. Take each key value in S\nand hash it using each of the k hash functions. Set to 1 each bit that is hi(K)\nfor some hash function hi and some key value K in S.\nTo test a key K that arrives in the stream, check that all of\nh1(K), h2(K), . . . , hk(K)\nare 1’s in the bit-array. If all are 1’s, then let the stream element through. If\none or more of these bits are 0, then K could not be in S, so reject the stream\ne"
+        },
+        {
+          "chunk_id": "chunk-509",
+          "page_number": 158,
+          "distance": 0.42619848251342773,
+          "text": "t all of\nh1(K), h2(K), . . . , hk(K)\nare 1’s in the bit-array. If all are 1’s, then let the stream element through. If\none or more of these bits are 0, then K could not be in S, so reject the stream\nelement.\n4.3.3\nAnalysis of Bloom Filtering\nIf a key value is in S, then the element will surely pass through the Bloom\nﬁlter. However, if the key value is not in S, it might still pass. We need to\nunderstand how to calculate the probability of a false positive, as a function of\nn, the bit-array length, m the number of members of S, and k, the number of\nhash functions.\nThe model to use is throwing darts at targets. Suppose we have x targets\nand y darts. Any dart is equally likely to hit any target. After throwing the\ndarts, how many targets can we expect to be hit at least once? The analysis is\nsimilar to the analysis in Section 3.4.2, and goes as follows:\n• The probability that a given dart will not hit a given target is (x −1)/x.\n• The probability that none of the y darts will hit a given "
+        },
+        {
+          "chunk_id": "chunk-514",
+          "page_number": 159,
+          "distance": 0.45715731382369995,
+          "text": "billion members of the set S), calculate the false-positive rate if we use three\nhash functions? What if we use four hash functions?\n! Exercise 4.3.2: Suppose we have n bits of memory available, and our set S\nhas m members. Instead of using k hash functions, we could divide the n bits\ninto k arrays, and hash once to each array. As a function of n, m, and k, what\nis the probability of a false positive? How does it compare with using k hash\nfunctions into a single array?\n"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        158,
+        159
+      ],
+      "latency_seconds": 0.037606799975037575,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "No. If a key is in the set, it will surely pass through the Bloom filter. A Bloom filter can instead produce false positives for keys that are not in the set.",
+      "question_type": "Edge-case/factual",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, a Bloom filter can incorrectly reject an element that is actually in the set, but the probability of this occurrence depends on the parameters n, m, and k.\n\nTo analyze this, let's consider the scenario where a key value is not in the set S. In this case, the element will pass through the Bloom filter with some probability.\n\nThe probability of a false positive (i.e., rejecting an element that is actually in the set) is given by the model of throwing darts at targets. Specifically, if we have x targets (i.e., the number of members in the set S) and y darts (i.e., the number of hash functions), the probability that a given dart will not hit a given target is (x-1)/x. Therefore, the probability that none of the y darts will hit a given target is ((x-1)/x)^y.\n\nHowever, the PDF context does not provide a direct formula for the probability of a false positive in terms of n, m, and k. It only mentions the concept of dividing the n bits into k arrays and hashing once to each array, but it does not provide a formula for the probability of a false positive in this case either.\n\nTherefore, I must say that the PDF context does not provide enough information to answer the question directly.",
+      "token_usage": {
+        "prompt_tokens": 798,
+        "answer_tokens": 274,
+        "total_tokens": 1072
+      }
+    },
+    {
+      "question_id": "Q007",
+      "question": "What is term spam?",
+      "relevant_pdf_pages": [
+        214
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-591",
+          "page_number": 182,
+          "distance": 0.47484052181243896,
+          "text": "e\nbackground. And if simply adding “movie” to your page didn’t do the trick,\nthen you could go to the search engine, give it the query “movie,” and see what\npage did come back as the ﬁrst choice. Then, copy that page into your own,\nagain using the background color to make it invisible.\nTechniques for fooling search engines into believing your page is about some-\nthing it is not, are called term spam.\nThe ability of term spammers to operate\nso easily rendered early search engines almost useless. To combat term spam,\nGoogle introduced two innovations:\n1. PageRank was used to simulate where Web surfers, starting at a random\npage, would tend to congregate if they followed randomly chosen outlinks\nfrom the page at which they were currently located, and this process were\nallowed to iterate many times. Pages that would have a large number of\nsurfers were considered more “important” than pages that would rarely\nbe visited. Google prefers important pages to unimportant pages when\ndeciding which"
+        },
+        {
+          "chunk_id": "chunk-656",
+          "page_number": 205,
+          "distance": 0.47650396823883057,
+          "text": "link spam, and\nthen see several methods for decreasing the eﬀectiveness of these spamming\ntechniques, including TrustRank and measurement of spam mass.\n5.4.1\nArchitecture of a Spam Farm\nA collection of pages whose purpose is to increase the PageRank of a certain\npage or pages is called a spam farm. Figure 5.16 shows the simplest form of\nspam farm. From the point of view of the spammer, the Web is divided into\nthree parts:\n1. Inaccessible pages: the pages that the spammer cannot aﬀect. Most of\nthe Web is in this part.\n2. Accessible pages: those pages that, while they are not controlled by the\nspammer, can be aﬀected by the spammer.\n"
+        },
+        {
+          "chunk_id": "chunk-662",
+          "page_number": 208,
+          "distance": 0.4873731732368469,
+          "text": "190\nCHAPTER 5. LINK ANALYSIS\n5.4.3\nCombating Link Spam\nIt has become essential for search engines to detect and eliminate link spam,\njust as it was necessary in the previous decade to eliminate term spam. There\nare two approaches to link spam. One is to look for structures such as the\nspam farm in Fig. 5.16, where one page links to a very large number of pages,\neach of which links back to it. Search engines surely search for such structures\nand eliminate those pages from their index. That causes spammers to develop\ndiﬀerent structures that have essentially the same eﬀect of capturing PageRank\nfor a target page or pages. There is essentially no end to variations of Fig. 5.16,\nso this war between the spammers and the search engines will likely go on for\na long time.\nHowever, there is another approach to eliminating link spam that doesn’t\nrely on locating the spam farms. Rather, a search engine can modify its deﬁni-\ntion of PageRank to lower the rank of link-spam pages automatically. We s"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        182,
+        205,
+        208
+      ],
+      "latency_seconds": 0.02824830007739365,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0,
+      "expected_answer": "Term spam is the introduction into Web pages of words that misrepresent what the page is about.",
+      "question_type": "Definition",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, term spam refers to techniques for fooling search engines into believing a page is about something it is not. This is mentioned on [PDF page 182], where it states:\n\n\"Techniques for fooling search engines into believing your page is about something it is not, are called term spam.\"\n\nThis definition is further explained in the context of link spam, where a spam farm is described as a collection of pages whose purpose is to increase the PageRank of a certain page or pages.",
+      "token_usage": {
+        "prompt_tokens": 727,
+        "answer_tokens": 104,
+        "total_tokens": 831
+      }
+    },
+    {
+      "question_id": "Q008",
+      "question": "What is the support of an itemset?",
+      "relevant_pdf_pages": [
+        254
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-786",
+          "page_number": 245,
+          "distance": 0.36602044105529785,
+          "text": " serious errors. That is,\nan itemset whose support is much larger than the threshold will almost surely\nbe identiﬁed from a random sample, and an itemset whose support is much less\nthan the threshold is unlikely to appear frequent in the sample. However, an\nitemset whose support in the whole is very close to the threshold is as likely to\n"
+        },
+        {
+          "chunk_id": "chunk-719",
+          "page_number": 225,
+          "distance": 0.38652974367141724,
+          "text": "skets. We also want the conﬁdence of the rule to\nbe reasonably high, perhaps 50%, or else the rule has little practical eﬀect. As\na result, the set I ∪{j} will also have fairly high support.\nSuppose we have found all itemsets that meet a threshold of support, and\nthat we have the exact support calculated for each of these itemsets. We can\nﬁnd within them all the association rules that have both high support and high\nconﬁdence. That is, if J is a set of n items that is found to be frequent, there are\nonly n possible association rules involving this set of items, namely J −{j} →j\nfor each j in J. If J is frequent, J −{j} must be at least as frequent. Thus, it\ntoo is a frequent itemset, and we have already computed the support of both J\nand J −{j}. Their ratio is the conﬁdence of the rule J −{j} →j.\nIt must be assumed that there are not too many frequent itemsets and thus\nnot too many candidates for high-support, high-conﬁdence association rules.\nThe reason is that each one found must be "
+        },
+        {
+          "chunk_id": "chunk-701",
+          "page_number": 220,
+          "distance": 0.3911399841308594,
+          "text": " Frequent Itemsets\nIntuitively, a set of items that appears in many baskets is said to be “frequent.”\nTo be formal, we assume there is a number s, called the support threshold. If\nI is a set of items, the support for I is the number of baskets for which I is a\nsubset. We say I is frequent if its support is s or more.\nExample 6.1 : In Fig. 6.1 are sets of words. Each set is a basket, and the\nwords are items. We took these sets by Googling cat dog and taking snippets\nfrom the highest-ranked pages. Do not be concerned if a word appears twice\nin a basket, as baskets are sets, and in principle items can appear only once.\nAlso, ignore capitalization.\n1. {Cat, and, dog, bites}\n2. {Yahoo, news, claims, a, cat, mated, with, a, dog, and, produced, viable,\noﬀspring}\n3. {Cat, killer, likely, is, a, big, dog}\n4. {Professional, free, advice, on, dog, training, puppy, training}\n5. {Cat, and, kitten, training, and, behavior}\n6. {Dog, &, Cat, provides, dog, training, in, Eugene, Oregon}\n7. {“Dog, and, "
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        245,
+        225,
+        220
+      ],
+      "latency_seconds": 0.03240659995935857,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0,
+      "expected_answer": "The support of a set of items is the number of baskets containing all those items.",
+      "question_type": "Definition",
+      "answerable": true,
+      "generated_answer": "The PDF context does not provide enough information to determine the support of an itemset. The PDF page 225 mentions that the support of an itemset is the number of baskets for which the itemset is a subset, but it does not provide a definition or formula for calculating the support of an itemset.",
+      "token_usage": {
+        "prompt_tokens": 746,
+        "answer_tokens": 63,
+        "total_tokens": 809
+      }
+    },
+    {
+      "question_id": "Q009",
+      "question": "What is the confidence of an association rule?",
+      "relevant_pdf_pages": [
+        254
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-713",
+          "page_number": 223,
+          "distance": 0.37031400203704834,
+          "text": "collection of if–then rules, called associ-\nation rules. The form of an association rule is I →j, where I is a set of items\nand j is an item. The implication of this association rule is that if all of the\nitems in I appear in some basket, then j is “likely” to appear in that basket as\nwell.\n"
+        },
+        {
+          "chunk_id": "chunk-719",
+          "page_number": 225,
+          "distance": 0.4347493052482605,
+          "text": "skets. We also want the conﬁdence of the rule to\nbe reasonably high, perhaps 50%, or else the rule has little practical eﬀect. As\na result, the set I ∪{j} will also have fairly high support.\nSuppose we have found all itemsets that meet a threshold of support, and\nthat we have the exact support calculated for each of these itemsets. We can\nﬁnd within them all the association rules that have both high support and high\nconﬁdence. That is, if J is a set of n items that is found to be frequent, there are\nonly n possible association rules involving this set of items, namely J −{j} →j\nfor each j in J. If J is frequent, J −{j} must be at least as frequent. Thus, it\ntoo is a frequent itemset, and we have already computed the support of both J\nand J −{j}. Their ratio is the conﬁdence of the rule J −{j} →j.\nIt must be assumed that there are not too many frequent itemsets and thus\nnot too many candidates for high-support, high-conﬁdence association rules.\nThe reason is that each one found must be "
+        },
+        {
+          "chunk_id": "chunk-715",
+          "page_number": 224,
+          "distance": 0.4391547441482544,
+          "text": ". For example, we don’t need to know that people are\nunusually likely to buy mustard when they buy hot dogs, as long as we know\nthat many people buy hot dogs, and many people buy both hot dogs and\nmustard. We can still use the sale-on-hot-dogs trick discussed in Section 6.1.2.\nHowever, there is often more value to an association rule if it reﬂects a true\nrelationship, where the item or items on the left somehow aﬀect the item on\nthe right.\nThus, we deﬁne the interest of an association rule I →j to be the diﬀerence\nbetween its conﬁdence and the fraction of baskets that contain j.\nThat is,\nif I has no inﬂuence on j, then we would expect that the fraction of baskets\nincluding I that contain j would be exactly the same as the fraction of all\nbaskets that contain j. Such a rule has interest 0. However, it is interesting, in\nboth the informal and technical sense, if a rule has either high interest, meaning\nthat the presence of I in a basket somehow causes the presence of j, or highly\nnegativ"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        223,
+        225,
+        224
+      ],
+      "latency_seconds": 0.0361351000610739,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0,
+      "expected_answer": "It is the probability that item j is also in a basket containing itemset I.",
+      "question_type": "Definition",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, the confidence of an association rule I →j is defined as the ratio of the support of the set J = I ∪ {j} to the support of the set J - {j}, which is equal to the confidence of the rule J - {j} →j.\n\nIn other words, the confidence of an association rule I →j is calculated as:\n\nConfidence(I →j) = Support(J) / Support(J - {j})\n\nThis is stated in the PDF context on page 225.",
+      "token_usage": {
+        "prompt_tokens": 709,
+        "answer_tokens": 109,
+        "total_tokens": 818
+      }
+    },
+    {
+      "question_id": "Q010",
+      "question": "How does the monotonicity property help the A-Priori algorithm?",
+      "relevant_pdf_pages": [
+        254
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-746",
+          "page_number": 233,
+          "distance": 0.3873826861381531,
+          "text": "6.2. MARKET BASKETS AND THE A-PRIORI ALGORITHM\n215\n1\n2\nItem\nnames\nto\nintegers\nn\n1\n2\nItem\nnames\nto\nintegers\nn\ncounts\nItem\nitems\nquent\nFre−\nUnused\nof pairs\nfor counts\nData structure\nPass 1\nPass 2\nFigure 6.3: Schematic of main-memory use during the two passes of the A-Priori\nAlgorithm\nthe A-Priori Algorithm, one pass is taken for each set-size k. If no frequent\nitemsets of a certain size are found, then monotonicity tells us there can be no\nlarger frequent itemsets, so we can stop.\nThe pattern of moving from one size k to the next size k + 1 can be sum-\nmarized as follows. For each size k, there are two sets of itemsets:\n1. Ck is the set of candidate itemsets of size k – the itemsets that we must\ncount in order to determine whether they are in fact frequent.\n2. Lk is the set of truly frequent itemsets of size k.\nThe pattern of moving from one set to the next and one size to the next is\nsuggested by Fig. 6.4.\nFilter\nC\nConstruct\nL\nFilter\nC\nConstruct\nL\nFilter\nC\nConstruct\nL\n1\n1\n2\n2\n3\n3\n. . .\n"
+        },
+        {
+          "chunk_id": "chunk-737",
+          "page_number": 230,
+          "distance": 0.41962993144989014,
+          "text": "d monotonicity for itemsets:\n• If a set I of items is frequent, then so is every subset of I.\nThe reason is simple. Let J ⊆I. Then every basket that contains all the items\nin I surely contains all the items in J. Thus, the count for J must be at least\nas great as the count for I, and if the count for I is at least s, then the count\nfor J is at least s. Since J may be contained in some baskets that are missing\none or more elements of I −J, it is entirely possible that the count for J is\nstrictly greater than the count for I.\nIn addition to making the A-Priori Algorithm work, monotonicity oﬀers us\na way to compact the information about frequent itemsets. If we are given\na support threshold s, then we say an itemset is maximal if no superset is\nfrequent.\nIf we list only the maximal itemsets, then we know that all subsets\nof a maximal itemset are frequent, and no set that is not a subset of some\nmaximal itemset can be frequent.\nExample 6.7 : Let us reconsider the data of Example 6.1 with s"
+        },
+        {
+          "chunk_id": "chunk-821",
+          "page_number": 255,
+          "distance": 0.4288453459739685,
+          "text": "6.6. SUMMARY OF CHAPTER 6\n237\nThe A-Priori Algorithm for Pairs: We can ﬁnd all frequent pairs by\nmaking two passes over the baskets. On the ﬁrst pass, we count the items\nthemselves, and then determine which items are frequent. On the second\npass, we count only the pairs of items both of which are found frequent\non the ﬁrst pass. Monotonicity justiﬁes our ignoring other pairs.\nFinding Larger Frequent Itemsets: A-Priori and many other algorithms\nallow us to ﬁnd frequent itemsets larger than pairs, if we make one pass\nover the baskets for each size itemset, up to some limit.\nTo ﬁnd the\nfrequent itemsets of size k, monotonicity lets us restrict our attention to\nonly those itemsets such that all their subsets of size k −1 have already\nbeen found frequent.\nThe PCY Algorithm: This algorithm improves on A-Priori by creating\na hash table on the ﬁrst pass, using all main-memory space that is not\nneeded to count the items. Pairs of items are hashed, and the hash-table\nbuckets are used as integer "
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        233,
+        230,
+        255
+      ],
+      "latency_seconds": 0.038357899989932775,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0,
+      "expected_answer": "If an itemset is not frequent, none of its supersets can be frequent, so those supersets do not need to be counted.",
+      "question_type": "Algorithm reasoning",
+      "answerable": true,
+      "generated_answer": "The monotonicity property helps the A-Priori algorithm by allowing it to efficiently find larger frequent itemsets by restricting its attention to itemsets such that all their subsets of size k-1 have already been found frequent. This is stated in the PDF context on page 255, line 14:\n\n\"To find the frequent itemsets of size k, monotonicity lets us restrict our attention to only those itemsets such that all their subsets of size k −1 have already been found frequent.\"\n\nThis property helps the algorithm to avoid exploring non-frequent itemsets and thus improves its efficiency.",
+      "token_usage": {
+        "prompt_tokens": 946,
+        "answer_tokens": 120,
+        "total_tokens": 1066
+      }
+    },
+    {
+      "question_id": "Q011",
+      "question": "How does the basic k-means algorithm assign points to clusters?",
+      "relevant_pdf_pages": [
+        273
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-946",
+          "page_number": 295,
+          "distance": 0.3520697355270386,
+          "text": " the radius.\nK-Means Algorithms: This family of algorithms is of the point-assignment\ntype and assumes a Euclidean space. It is assumed that there are exactly\nk clusters for some known k. After picking k initial cluster centroids, the\npoints are considered one at a time and assigned to the closest centroid.\nThe centroid of a cluster can migrate during point assignment, and an\noptional last step is to reassign all the points, while holding the centroids\nﬁxed at their ﬁnal values obtained during the ﬁrst pass.\nInitializing K-Means Algorithms: One way to ﬁnd k initial centroids is\nto pick a random point, and then choose k −1 additional points, each as\nfar away as possible from the previously chosen points. An alternative is\nto start with a small sample of points and use a hierarchical clustering to\nmerge them into k clusters.\nPicking K in a K-Means Algorithm: If the number of clusters is unknown,\nwe can use a binary-search technique, trying a k-means clustering with\ndiﬀerent values of k. "
+        },
+        {
+          "chunk_id": "chunk-873",
+          "page_number": 273,
+          "distance": 0.36031121015548706,
+          "text": " is closest;\nAdd p to the cluster of that centroid;\nAdjust the centroid of that cluster to account for p;\nEND;\nFigure 7.7: Outline of k-means algorithms\nAn optional step at the end is to ﬁx the centroids of the clusters and to\nreassign each point, including the k initial points, to the k clusters. Usually,\na point p will be assigned to the same cluster in which it was placed on the\nﬁrst pass. However, there are cases where the centroid of p’s original cluster\nmoved quite far from p after p was placed there, and p is assigned to a diﬀerent\ncluster on the second pass. In fact, even some of the original k points could\nwind up being reassigned. As these examples are unusual, we shall not dwell\non the subject.\n7.3.2\nInitializing Clusters for K-Means\nWe want to pick points that have a good chance of lying in diﬀerent clusters.\nThere are two approaches.\n1. Pick points that are as far away from one another as possible.\n2. Cluster a sample of the data, perhaps hierarchically, so there are k clu"
+        },
+        {
+          "chunk_id": "chunk-872",
+          "page_number": 273,
+          "distance": 0.36328577995300293,
+          "text": "7.3. K-MEANS ALGORITHMS\n255\n7.3.1\nK-Means Basics\nA k-means algorithm is outlined in Fig. 7.7. There are several ways to select\nthe initial k points that represent the clusters, and we shall discuss them in\nSection 7.3.2. The heart of the algorithm is the for-loop, in which we consider\neach point other than the k selected points and assign it to the closest cluster,\nwhere “closest” means closest to the centroid of the cluster.\nNote that the\ncentroid of a cluster can migrate as points are assigned to it. However, since\nonly points near the cluster are likely to be assigned, the centroid tends not to\nmove too much.\nInitially choose k points that are likely to be in\ndifferent clusters;\nMake these points the centroids of their clusters;\nFOR each remaining point p DO\nfind the centroid to which p is closest;\nAdd p to the cluster of that centroid;\nAdjust the centroid of that cluster to account for p;\nEND;\nFigure 7.7: Outline of k-means algorithms\nAn optional step at the end is to ﬁx the centro"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        295,
+        273
+      ],
+      "latency_seconds": 0.035203599953092635,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "It assigns each point to the cluster whose centroid is closest, then adjusts that cluster's centroid to account for the point.",
+      "question_type": "Algorithm explanation",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, specifically Figure 7.7: Outline of k-means algorithms on PDF page 273, the basic k-means algorithm assigns points to clusters as follows:\n\n1. Initially choose k points that are likely to be in different clusters.\n2. Make these points the centroids of their clusters.\n3. FOR each remaining point p DO:\n   a. Find the centroid to which p is closest.\n   b. Add p to the cluster of that centroid.\n   c. Adjust the centroid of that cluster to account for p.\n\nThis process is repeated until all points have been assigned to a cluster, and an optional step to reassign points and fix the centroids of the clusters can be performed afterwards.",
+      "token_usage": {
+        "prompt_tokens": 840,
+        "answer_tokens": 146,
+        "total_tokens": 986
+      }
+    },
+    {
+      "question_id": "Q012",
+      "question": "What are two unexpected properties associated with the curse of dimensionality?",
+      "relevant_pdf_pages": [
+        294
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-839",
+          "page_number": 262,
+          "distance": 0.4635118842124939,
+          "text": "244\nCHAPTER 7. CLUSTERING\n7.1.3\nThe Curse of Dimensionality\nHigh-dimensional Euclidean spaces have a number of unintuitive properties that\nare sometimes referred to as the “curse of dimensionality.”\nNon-Euclidean\nspaces usually share these anomalies as well. One manifestation of the “curse”\nis that in high dimensions, almost all pairs of points are equally far away from\none another. Another manifestation is that almost any two vectors are almost\northogonal. We shall explore each of these in turn.\nThe Distribution of Distances in a High-Dimensional Space\nLet us consider a d-dimensional Euclidean space. Suppose we choose n random\npoints in the unit cube, i.e., points [x1, x2, . . . , xd], where each xi is in the range\n0 to 1. If d = 1, we are placing random points on a line of length 1. We expect\nthat some pairs of points will be very close, e.g., consecutive points on the\nline. We also expect that some points will be very far away – those at or near\nopposite ends of the line. The averag"
+        },
+        {
+          "chunk_id": "chunk-942",
+          "page_number": 294,
+          "distance": 0.5371123552322388,
+          "text": "ten a useful summary of data that is in the form\nof points in some space. To cluster points, we need a distance measure\non that space. Ideally, points in the same cluster have small distances be-\ntween them, while points in diﬀerent clusters have large distances between\nthem.\nClustering Algorithms: Clustering algorithms generally have one of two\nforms. Hierarchical clustering algorithms begin with all points in a cluster\nof their own, and nearby clusters are merged iteratively. Point-assignment\nclustering algorithms consider points in turn and assign them to the clus-\nter in which they best ﬁt.\nThe Curse of Dimensionality: Points in high-dimensional Euclidean spa-\nces, as well as points in non-Euclidean spaces often behave unintuitively.\nTwo unexpected properties of these spaces are that random points are\nalmost always at about the same distance, and random vectors are almost\nalways orthogonal.\nCentroids and Clustroids: In a Euclidean space, the members of a cluster\ncan be averaged, an"
+        },
+        {
+          "chunk_id": "chunk-917",
+          "page_number": 287,
+          "distance": 0.5396661758422852,
+          "text": "ith a common parent. However, in principle, we can consider\nmerging any two clusters C1 and C2 into one cluster C.\nTo merge clusters, we assume that the clustroid of C will be one of the\npoints that are as far as possible from the clustroid of C1 or the clustroid of\nC2. Suppose we want to compute the rowsum in C for the point p, which is one\nof the k points in C1 that are as far as possible from the centroid of C1. We\nuse the curse-of-dimensionality argument that says all angles are approximately\nright angles, to justify the following formula.\nROWSUMC(p) = ROWSUMC1(p) + NC2\n\u0000d2(p, c1) + d2(c1, c2)\n\u0001\n+ ROWSUMC2(c2)\nIn the above, we subscript N and ROWSUM by the cluster to which that feature\n"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        262,
+        294,
+        287
+      ],
+      "latency_seconds": 0.03812060004565865,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "In high-dimensional spaces, random points are almost always at about the same distance, and random vectors are almost always orthogonal.",
+      "question_type": "Concept explanation",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, two unexpected properties associated with the curse of dimensionality are:\n\n1. Almost all pairs of points are equally far away from each other (as mentioned on PDF page 262, line 244).\n2. Almost any two vectors are almost orthogonal (also mentioned on PDF page 262, line 244).",
+      "token_usage": {
+        "prompt_tokens": 776,
+        "answer_tokens": 68,
+        "total_tokens": 844
+      }
+    },
+    {
+      "question_id": "Q013",
+      "question": "What is a utility matrix in a recommendation system?",
+      "relevant_pdf_pages": [
+        326
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1040",
+          "page_number": 326,
+          "distance": 0.29507362842559814,
+          "text": "308\nCHAPTER 9. RECOMMENDATION SYSTEMS\nwhich explains the advantage of on-line vendors over conventional, brick-and-\nmortar vendors.\nWe then brieﬂy survey the sorts of applications in which\nrecommendation systems have proved useful.\n9.1.1\nThe Utility Matrix\nIn a recommendation-system application there are two classes of entities, which\nwe shall refer to as users and items.\nUsers have preferences for certain items,\nand these preferences must be teased out of the data. The data itself is repre-\nsented as a utility matrix, giving for each user-item pair, a value that represents\nwhat is known about the degree of preference of that user for that item. Values\ncome from an ordered set, e.g., integers 1–5 representing the number of stars\nthat the user gave as a rating for that item. We assume that the matrix is\nsparse, meaning that most entries are “unknown.” An unknown rating implies\nthat we have no explicit information about the user’s preference for the item.\nExample 9.1 : In Fig. 9.1 we see"
+        },
+        {
+          "chunk_id": "chunk-1042",
+          "page_number": 326,
+          "distance": 0.3295663595199585,
+          "text": "vie. In practice, the matrix would be even sparser, with the typical\nuser rating only a tiny fraction of all available movies.\n✷\nThe goal of a recommendation system is to predict the blanks in the utility\nmatrix. For example, would user A like SW2? There is little evidence from\nthe tiny matrix in Fig. 9.1. We might design our recommendation system to\ntake into account properties of movies, such as their producer, director, stars,\nor even the similarity of their names. If so, we might then note the similarity\nbetween SW1 and SW2, and then conclude that since A did not like SW1, they\nwere unlikely to enjoy SW2 either. Alternatively, with much more data, we\nmight observe that the people who rated both SW1 and SW2 tended to give\nthem similar ratings. Thus, we could conclude that A would also give SW2 a\nlow rating, similar to A’s rating of SW1.\n"
+        },
+        {
+          "chunk_id": "chunk-1041",
+          "page_number": 326,
+          "distance": 0.33497655391693115,
+          "text": "the matrix is\nsparse, meaning that most entries are “unknown.” An unknown rating implies\nthat we have no explicit information about the user’s preference for the item.\nExample 9.1 : In Fig. 9.1 we see an example utility matrix, representing users’\nratings of movies on a 1–5 scale, with 5 the highest rating. Blanks represent\nthe situation where the user has not rated the movie. The movie names are\nHP1, HP2, and HP3 for Harry Potter I, II, and III, TW for Twilight, and SW1,\nSW2, and SW3 for Star Wars episodes 1, 2, and 3. The users are represented\nby capital letters A through D.\nHP1\nHP2\nHP3\nTW\nSW1\nSW2\nSW3\nA\n4\n5\n1\nB\n5\n5\n4\nC\n2\n4\n5\nD\n3\n3\nFigure 9.1: A utility matrix representing ratings of movies on a 1–5 scale\nNotice that most user-movie pairs have blanks, meaning the user has not\nrated the movie. In practice, the matrix would be even sparser, with the typical\nuser rating only a tiny fraction of all available movies.\n✷\nThe goal of a recommendation system is to predict the blanks in the uti"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        326
+      ],
+      "latency_seconds": 0.03440719994250685,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "It is a matrix containing, for each user-item pair, a value representing what is known about the user's preference for that item; most entries are typically unknown.",
+      "question_type": "Definition",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, a utility matrix in a recommendation system is a matrix that represents the preferences of users for certain items. Each entry in the matrix represents the degree of preference of a user for a particular item, with values coming from an ordered set (e.g., integers 1-5 representing ratings on a scale). The goal of a recommendation system is to predict the blanks in the utility matrix, which represent unknown ratings.\n\n[PDF page 326]\n\nThis answer is supported by the PDF context, specifically by the explanation of a utility matrix on page 326, which describes the matrix as a representation of user-item pairs and the degree of preference between users and items.",
+      "token_usage": {
+        "prompt_tokens": 832,
+        "answer_tokens": 137,
+        "total_tokens": 969
+      }
+    },
+    {
+      "question_id": "Q014",
+      "question": "What is the difference between content-based and collaborative-filtering recommendation systems?",
+      "relevant_pdf_pages": [
+        325
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1052",
+          "page_number": 330,
+          "distance": 0.28183406591415405,
+          "text": "312\nCHAPTER 9. RECOMMENDATION SYSTEMS\n9.2\nContent-Based Recommendations\nAs we mentioned at the beginning of the chapter, there are two basic architec-\ntures for a recommendation system:\n1. Content-Based systems focus on properties of items. Similarity of items\nis determined by measuring the similarity in their properties.\n2. Collaborative-Filtering systems focus on the relationship between users\nand items.\nSimilarity of items is determined by the similarity of the\nratings of those items by the users who have rated both items.\nIn this section, we focus on content-based recommendation systems. The next\nsection will cover collaborative ﬁltering.\n9.2.1\nItem Proﬁles\nIn a content-based system, we must construct for each item a proﬁle, which is\na record or collection of records representing important characteristics of that\nitem. In simple cases, the proﬁle consists of some characteristics of the item\nthat are easily discovered. For example, consider the features of a movie that\nmight be rele"
+        },
+        {
+          "chunk_id": "chunk-1038",
+          "page_number": 325,
+          "distance": 0.33890408277511597,
+          "text": "Chapter 9\nRecommendation Systems\nThere is an extensive class of Web applications that involve predicting user\nresponses to options. Such a facility is called a recommendation system. We\nshall begin this chapter with a survey of the most important examples of these\nsystems.\nHowever, to bring the problem into focus, two good examples of\nrecommendation systems are:\n1. Oﬀering news articles to on-line newspaper readers, based on a prediction\nof reader interests.\n2. Oﬀering customers of an on-line retailer suggestions about what they\nmight like to buy, based on their past history of purchases and/or product\nsearches.\nRecommendation systems use a number of diﬀerent technologies. We can\nclassify these systems into two broad groups.\n• Content-based systems examine properties of the items recommended. For\ninstance, if a Netﬂix user has watched many cowboy movies, then recom-\nmend a movie classiﬁed in the database as having the “cowboy” genre.\n• Collaborative ﬁltering systems recommend items bas"
+        },
+        {
+          "chunk_id": "chunk-1055",
+          "page_number": 331,
+          "distance": 0.38806986808776855,
+          "text": "9.2. CONTENT-BASED RECOMMENDATIONS\n313\n9.2.2\nDiscovering Features of Documents\nThere are other classes of items where it is not immediately apparent what the\nvalues of features should be. We shall consider two of them: document collec-\ntions and images. Documents present special problems, and we shall discuss\nthe technology for extracting features from documents in this section. Images\nwill be discussed in Section 9.2.3 as an important example where user-supplied\nfeatures have some hope of success.\nThere are many kinds of documents for which a recommendation system can\nbe useful. For example, there are many news articles published each day, and\nwe cannot read all of them. A recommendation system can suggest articles on\ntopics a user is interested in, but how can we distinguish among topics? Web\npages are also a collection of documents. Can we suggest pages a user might\nwant to see? Likewise, blogs could be recommended to interested users, if we\ncould classify blogs by topics.\nUnfortuna"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        330,
+        325,
+        331
+      ],
+      "latency_seconds": 0.04315040004439652,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "Content-based systems use common features of items to measure similarity, while collaborative filtering uses similarities among users and/or items based on their preferences.",
+      "question_type": "Comparison",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, the main difference between content-based and collaborative-filtering recommendation systems is the way they determine similarity between items.\n\nContent-based systems determine similarity by measuring the similarity in properties of items, such as characteristics of a movie (e.g. genre) (PDF page 330). In contrast, collaborative-filtering systems determine similarity by measuring the similarity in ratings of items by users who have rated both items (PDF page 330).\n\nIn other words, content-based systems look at the properties of items themselves to make recommendations, while collaborative-filtering systems look at the behavior of users to make recommendations.",
+      "token_usage": {
+        "prompt_tokens": 777,
+        "answer_tokens": 123,
+        "total_tokens": 900
+      }
+    },
+    {
+      "question_id": "Q015",
+      "question": "What is UV-decomposition used for in recommendation systems?",
+      "relevant_pdf_pages": [
+        346
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1135",
+          "page_number": 356,
+          "distance": 0.38893741369247437,
+          "text": "338\nCHAPTER 9. RECOMMENDATION SYSTEMS\n1. The average rating given by u on all rated movies and\n2. The average of the ratings for movie m by all users who rated that\nmovie.\nwas only 3% worse than CineMatch.\n• The UV-decomposition algorithm described in Section 9.4 was found by\nthree students (Michael Harris, Jeﬀrey Wang, and David Kamm) to give\na 7% improvement over CineMatch, when coupled with normalization and\na few other tricks.\n• The winning entry was actually a combination of several diﬀerent algo-\nrithms that had been developed independently. A second team, which\nsubmitted an entry that would have won, had it been submitted a few\nminutes earlier, also was a blend of independent algorithms. This strat-\negy – combining diﬀerent algorithms – has been used before in a number\nof hard problems and is something worth remembering.\n• Several attempts have been made to use the data contained in IMDB, the\nInternet movie database, to match the names of movies from the Netﬂix\nchallenge with th"
+        },
+        {
+          "chunk_id": "chunk-1107",
+          "page_number": 346,
+          "distance": 0.41147732734680176,
+          "text": "328\nCHAPTER 9. RECOMMENDATION SYSTEMS\n(b) Then, construct from the original matrix of Fig. 9.8 a new matrix whose\nrows correspond to users, as before, and whose columns correspond to\nclusters. Compute the entry for a user and cluster of items by averaging\nthe nonblank entries for that user and all the items in the cluster.\n(c) Compute the cosine distance between each pair of users, according to your\nmatrix from Part (b).\n9.4\nDimensionality Reduction\nAn entirely diﬀerent approach to estimating the blank entries in the utility\nmatrix is to conjecture that the utility matrix is actually the product of two\nlong, thin matrices. This view makes sense if there are a relatively small set\nof features of items and users that determine the reaction of most users to\nmost items. In this section, we sketch one approach to discovering two such\nmatrices; the approach is called “UV-decomposition,” and it is an instance of\na more general theory called SVD (singular-value decomposition).\n9.4.1\nUV-Decompo"
+        },
+        {
+          "chunk_id": "chunk-1142",
+          "page_number": 358,
+          "distance": 0.4214590787887573,
+          "text": "340\nCHAPTER 9. RECOMMENDATION SYSTEMS\ngives values for all user-item pairs, that value can be used to predict the\nvalue of a blank in the utility matrix. The intuitive reason this method\nmakes sense is that often there are a relatively small number of issues (that\nnumber is the “thin” dimension of U and V ) that determine whether or\nnot a user likes an item.\nRoot-Mean-Square Error: A good measure of how close the product UV\nis to the given utility matrix is the RMSE (root-mean-square error). The\nRMSE is computed by averaging the square of the diﬀerences between\nUV and the utility matrix, in those elements where the utility matrix is\nnonblank. The square root of this average is the RMSE.\nComputing U and V : One way of ﬁnding a good choice for U and V in a\nUV-decomposition is to start with arbitrary matrices U and V . Repeat-\nedly adjust one of the elements of U or V to minimize the RMSE between\nthe product UV and the given utility matrix. The process converges to\na local optimum, althou"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        356,
+        346,
+        358
+      ],
+      "latency_seconds": 0.03521810006350279,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "It approximates a utility matrix M as the product UV, using a smaller number of dimensions to represent users and items and to estimate unknown entries.",
+      "question_type": "Application/explanation",
+      "answerable": true,
+      "generated_answer": "The UV-decomposition algorithm is used for estimating the blank entries in a utility matrix in recommendation systems. According to the PDF context, this approach is based on the singular-value decomposition (SVD) theory, where the utility matrix is conjectured to be the product of two long, thin matrices, U and V (PDF page 358, 9.4.1).\n\nThe UV-decomposition algorithm is used to find good choices for U and V by repeatedly adjusting one of the elements of U or V to minimize the root-mean-square error (RMSE) between the product UV and the given utility matrix. The process converges to a local optimum.\n\nThis approach makes sense if there are a relatively small set of features of items and users that determine the reaction of most users to most items, as it assumes that a small number of issues (the \"thin\" dimension of U and V) determine whether or not a user likes an item (PDF page 358).\n\nThe UV-decomposition algorithm is used in the context of recommendation systems to improve the estimation of utility matrix entries, and it has been shown to give a 7% improvement over CineMatch when coupled with normalization and other tricks (PDF page 347).",
+      "token_usage": {
+        "prompt_tokens": 833,
+        "answer_tokens": 246,
+        "total_tokens": 1079
+      }
+    },
+    {
+      "question_id": "Q016",
+      "question": "What is the goal of dimensionality reduction?",
+      "relevant_pdf_pages": [
+        423
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1427",
+          "page_number": 453,
+          "distance": 0.4378582239151001,
+          "text": "ith the second-largest eigenvalue), and similarly get each\nof the eigenpairs in turn, in order of decreasing value of the eigenvalue.\nPrincipal-Component Analysis: This technique for dimensionality reduc-\ntion views data consisting of a collection of points in a multidimensional\nspace as a matrix, with rows corresponding to the points and columns to\nthe dimensions. The product of this matrix and its transpose has eigen-\npairs, and the principal eigenvector can be viewed as the direction in the\nspace along which the points best line up. The second eigenvector repre-\nsents the direction in which deviations from the principal eigenvector are\nthe greatest, and so on.\nDimensionality Reduction by PCA: By representing the matrix of points\nby a small number of its eigenvectors, we can approximate the data in a\nway that minimizes the root-mean-square error for the given number of\ncolumns in the representing matrix.\nSingular-Value Decomposition: The singular-value decomposition of a ma-\ntrix con"
+        },
+        {
+          "chunk_id": "chunk-1373",
+          "page_number": 434,
+          "distance": 0.4406200647354126,
+          "text": "the one that uses\nthe eigenvectors associated with the largest eigenvalues and ignores the other\neigenvalues.\nThat is, let Ek be the ﬁrst k columns of E. Then MEk is a k-dimensional\nrepresentation of M.\nExample 11.6 : Let M be the matrix from Section 11.2.1. This data has only\ntwo dimensions, so the only dimensionality reduction we can do is to use k = 1;\ni.e., project the data onto a one dimensional space. That is, we compute ME1\nby\n\n\n1\n2\n2\n1\n3\n4\n4\n3\n\n\n\u0014\n1/\n√\n2\n1/\n√\n2\n\u0015\n=\n\n\n3/\n√\n2\n3/\n√\n2\n7/\n√\n2\n7/\n√\n2\n\n\nThe eﬀect of this transformation is to replace the points of M by their pro-\njections onto the x-axis of Fig. 11.3. While the ﬁrst two points project to the\nsame point, as do the third and fourth points, this representation makes the\nbest possible one-dimensional distinctions among the points.\n✷\n"
+        },
+        {
+          "chunk_id": "chunk-1345",
+          "page_number": 423,
+          "distance": 0.4528190493583679,
+          "text": "Chapter 11\nDimensionality Reduction\nThere are many sources of data that can be viewed as a large matrix.\nWe\nsaw in Chapter 5 how the Web can be represented as a transition matrix. In\nChapter 9, the utility matrix was a point of focus.\nAnd in Chapter 10 we\nexamined matrices that represent social networks. In many of these matrix\napplications, the matrix can be summarized by ﬁnding “narrower” matrices\nthat in some sense are close to the original. These narrow matrices have only a\nsmall number of rows or a small number of columns, and therefore can be used\nmuch more eﬃciently than can the original large matrix. The process of ﬁnding\nthese narrow matrices is called dimensionality reduction.\nWe saw a preliminary example of dimensionality reduction in Section 9.4.\nThere, we discussed UV-decomposition of a matrix and gave a simple algorithm\nfor ﬁnding this decomposition. Recall that a large matrix M was decomposed\ninto two matrices U and V whose product UV was approximately M. The\nmatrix U ha"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        453,
+        434,
+        423
+      ],
+      "latency_seconds": 0.03275360004045069,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "The goal is to replace a large matrix with smaller matrices that approximately reconstruct the original while using fewer rows or columns and preserving useful information.",
+      "question_type": "Definition",
+      "answerable": true,
+      "generated_answer": "The goal of dimensionality reduction is to find a smaller matrix representation of a larger matrix that retains most of the information in the original matrix, while using less computational resources and memory. (PDF page 423)\n\nIn the context of Principal-Component Analysis (PCA), the goal is to represent the data in a way that minimizes the root-mean-square error for a given number of columns in the representing matrix. (PDF page 454)\n\nIn general, dimensionality reduction involves finding a smaller matrix representation of the original matrix that is close to the original matrix in some sense, such as by retaining the dominant eigenvalues and eigenvectors. (PDF page 434)\n\nThe specific goal of dimensionality reduction can vary depending on the context and the specific technique used, but it is often to find a more compact and efficient representation of the data that preserves the most important information.",
+      "token_usage": {
+        "prompt_tokens": 855,
+        "answer_tokens": 176,
+        "total_tokens": 1031
+      }
+    },
+    {
+      "question_id": "Q017",
+      "question": "What is an eigenvalue and its corresponding eigenvector?",
+      "relevant_pdf_pages": [
+        424
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1375",
+          "page_number": 435,
+          "distance": 0.42044323682785034,
+          "text": "genvector of M TM; that is,\nM TMe = λe\nMultiply both sides of this equation by M on the left. Then\nMM T(Me) = Mλe = λ(Me)\nThus, as long as Me is not the zero vector 0, it will be an eigenvector of MM T\nand λ will be an eigenvalue of MM T as well as of M TM.\nThe converse holds as well. That is, if e is an eigenvector of MM T with\ncorresponding eigenvalue λ, then start with MM Te = λe and multiply on the\nleft by M T to conclude that M TM(M Te) = λ(M Te). Thus, if M Te is not 0,\nthen λ is also an eigenvalue of M TM.\nWe might wonder what happens when M Te = 0. In that case, MM Te\nis also 0, but e is not 0 because 0 cannot be an eigenvector. However, since\n0 = λe, we conclude that λ = 0.\nWe conclude that the eigenvalues of MM T are the eigenvalues of M TM\nplus additional 0’s. If the dimension of MM T were less than the dimension\nof M TM, then the opposite would be true; the eigenvalues of M TM would be\nthose of MM T plus additional 0’s.\n\n\n3/\n√\n116\n1/2\n7/\n√\n116\n1/2\n3/\n√\n116\n−1/2\n7/\n√\n116"
+        },
+        {
+          "chunk_id": "chunk-1426",
+          "page_number": 453,
+          "distance": 0.43078821897506714,
+          "text": "11.5. SUMMARY OF CHAPTER 11\n435\nEigenvalues and Eigenvectors: A matrix may have several eigenvectors\nsuch that when the matrix multiplies the eigenvector, the result is a con-\nstant multiple of the eigenvector. That constant is the eigenvalue asso-\nciated with this eigenvector. Together the eigenvector and its eigenvalue\nare called an eigenpair.\nFinding Eigenpairs by Power Iteration: We can ﬁnd the principal eigen-\nvector (eigenvector with the largest eigenvalue) by starting with any vec-\ntor and repeatedly multiplying the current vector by the matrix to get a\nnew vector. When the changes to the vector become small, we can treat\nthe result as a close approximation to the principal eigenvector. By mod-\nifying the matrix, we can then use the same iteration to get the second\neigenpair (that with the second-largest eigenvalue), and similarly get each\nof the eigenpairs in turn, in order of decreasing value of the eigenvalue.\nPrincipal-Component Analysis: This technique for dimensionality re"
+        },
+        {
+          "chunk_id": "chunk-1347",
+          "page_number": 424,
+          "distance": 0.44073033332824707,
+          "text": "406\nCHAPTER 11. DIMENSIONALITY REDUCTION\n11.1\nEigenvalues and Eigenvectors of Symmet-\nric Matrices\nWe shall assume that you are familiar with the basics of matrix algebra: multi-\nplication, transpose, determinants, and solving linear equations for example. In\nthis section, we shall deﬁne eigenvalues and eigenvectors of a symmetric matrix\nand show how to ﬁnd them. Recall a matrix is symmetric if the element in row\ni and column j equals the element in row j and column i.\n11.1.1\nDeﬁnitions\nLet M be a square matrix. Let λ be a constant and e a nonzero column vector\nwith the same number of rows as M. Then λ is an eigenvalue of M and e is\nthe corresponding eigenvector of M if Me = λe.\nIf e is an eigenvector of M and c is any constant, then it is also true that\nc e is an eigenvector of M with the same eigenvalue. Multiplying a vector by a\nconstant changes the length of a vector, but not its direction. Thus, to avoid\nambiguity regarding the length, we shall require that every eigenvector be a\n"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        435,
+        453,
+        424
+      ],
+      "latency_seconds": 0.03165160003118217,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "For a square matrix M, λ is an eigenvalue and e is its corresponding eigenvector if Me = λe, where e is a nonzero vector.",
+      "question_type": "Definition + formula",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, an eigenvalue is a constant λ, and an eigenvector e, such that when the matrix M multiplies the eigenvector e, the result is a constant multiple of the eigenvector e, i.e., Me = λe. (See [PDF page 435])\n\nIn other words, the eigenvalue λ is a scalar value, and the eigenvector e is a non-zero vector, such that the matrix M applied to the eigenvector e results in a scaled version of the same eigenvector e.",
+      "token_usage": {
+        "prompt_tokens": 941,
+        "answer_tokens": 115,
+        "total_tokens": 1056
+      }
+    },
+    {
+      "question_id": "Q018",
+      "question": "What is a perceptron?",
+      "relevant_pdf_pages": [
+        465
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1484",
+          "page_number": 473,
+          "distance": 0.4213827848434448,
+          "text": "weight 1 for “the,” which suggests that “the” is as indicative of spam as “nige-\nria,” something we doubt is true. Nevertheless, this perceptron does classify all\nexamples correctly.\n✷\n12.2.5\nMulticlass Perceptrons\nThere are several ways in which the basic idea of the perceptron can be ex-\ntended. We shall discuss transformations that enable hyperplanes to serve for\nmore complex boundaries in the next section. Here, we look at how perceptrons\ncan be used to classify data into many classes.\nSuppose we are given a training set with labels in k diﬀerent classes. Start\nby training a perceptron for each class; these perceptrons should each have the\nsame threshold θ. That is, for class i treat a training example (x, i) as a positive\nexample, and all examples (x, j), where j̸ = i, as a negative example. Suppose\nthat the weight vector of the perceptron for class i is determined to be wi after\ntraining.\nGiven a new vector x to classify, we compute wi.x for all i = 1, 2, . . ., k. We\ntake the cl"
+        },
+        {
+          "chunk_id": "chunk-1499",
+          "page_number": 478,
+          "distance": 0.42717164754867554,
+          "text": " 3], +1)\n([2, 1], +1)\n([3, 2], −1)\n(a) What happens when you attempt to train a perceptron to classify these\npoints using 0 as the threshold?\n!! (b) Is it possible to change the threshold and obtain a perceptron that cor-\nrectly classiﬁes these points?\n(c) Suggest a transformation using quadratic polynomials that will transform\nthese points so they become linearly separable.\n"
+        },
+        {
+          "chunk_id": "chunk-1461",
+          "page_number": 465,
+          "distance": 0.4386979341506958,
+          "text": "n is a vector of\nweights w = [w1, w2, . . . , wd], also with real-valued components. Each percep-\ntron has a threshold θ. The output of the perceptron is +1 if w.x > θ, and\nthe output is −1 if w.x < θ. The special case where w.x = θ will always be\nregarded as “wrong,” in the sense that we shall describe in detail when we get\nto Section 12.2.1.\nThe weight vector w deﬁnes a hyperplane of dimension d −1 – the set of all\npoints x such that w.x = θ, as suggested in Fig. 12.4. Points on the positive\nside of the hyperplane are classiﬁed +1 and those on the negative side are clas-\nsiﬁed −1. A perceptron classiﬁer works only for data that is linearly separable,\nin the sense that there is some hyperplane that separates all the positive points\nfrom all the negative points. If there are many such hyperplanes, the percep-\ntron will converge to one of them, and thus will correctly classify all the training\npoints. If no such hyperplane exists, then the perceptron cannot converge to\nany particular on"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        473,
+        478,
+        465
+      ],
+      "latency_seconds": 0.033313199994154274,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.3333333333333333,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "A perceptron is a linear binary classifier. It uses a weight vector and a threshold to classify an input vector as +1 or −1.",
+      "question_type": "Definition",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, a perceptron is defined as:\n\n\"The special case where w.x = θ will always be regarded as “wrong,” in the sense that we shall describe in detail when we get to Section 12.2.1.\"\n\n[PDF page 465]\n\nIt also explains that the output of a perceptron is +1 if w.x > θ, and -1 if w.x < θ.\n\n[PDF page 465]\n\nHowever, it does not explicitly define what a perceptron is, but rather explains how it works and its limitations.\n\n[PDF page 465]\n\nIn the context of the problem, the perceptron is used for classification, and it can be trained to classify data into many classes by training multiple perceptrons with the same threshold θ.\n\n[PDF page 474]\n\nTherefore, a perceptron is a machine learning model that uses a weight vector w and a threshold θ to classify data into two classes (+1 and -1) by determining which side of the hyperplane w.x = θ the input point falls on.",
+      "token_usage": {
+        "prompt_tokens": 738,
+        "answer_tokens": 214,
+        "total_tokens": 952
+      }
+    },
+    {
+      "question_id": "Q019",
+      "question": "What happens when a machine-learning model overfits its training set?",
+      "relevant_pdf_pages": [
+        500
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1450",
+          "page_number": 462,
+          "distance": 0.44285500049591064,
+          "text": "rning Architecture\nMachine-learning algorithms can be classiﬁed not only by their general algorith-\nmic approach as we discussed in Section 12.1.3. but also by their underlying\narchitecture – the way data is handled and the way it is used to build the model.\nTraining and Testing\nOne general issue regarding the handling of data is that there is a good reason to\nwithhold some of the available data from the training set. The remaining data\nis called the test set. The problem addressed is that many machine-learning\nalgorithms tend to overﬁt the data; they pick up on artifacts that occur in the\ntraining set but that are atypical of the larger population of possible data. By\nusing the test data, and seeing how well the classiﬁer works on that, we can tell\nif the classiﬁer is overﬁtting the data. If so, we can restrict the machine-learning\nalgorithm in some way. For instance, if we are constructing a decision tree, we\ncan limit the number of levels of the tree.\nTest\nModel\nModel\nGeneration\nTra"
+        },
+        {
+          "chunk_id": "chunk-1490",
+          "page_number": 475,
+          "distance": 0.45234036445617676,
+          "text": "obably be an example of overﬁtting, the situation where\nthe classiﬁer works very well on the training set, because it has been carefully\ndesigned to handle each training example correctly. However, because the clas-\nsiﬁer is exploiting details of the training set that do not apply to other examples\nthat must be classiﬁed in the future, the classiﬁer will not perform well on new\ndata.\nAnother problem is illustrated in Fig. 12.12. Usually, if classes can be sep-\narated by one hyperplane, then there are many diﬀerent hyperplanes that will\nseparate the points. However, not all hyperplanes are equally good. For in-\nstance, if we choose the hyperplane that is furthest clockwise, then the point\nindicated by “?” will be classiﬁed as a circle, even though we intuitively see it as\ncloser to the squares. When we meet support-vector machines in Section 12.3,\nwe shall see that there is a way to insist that the hyperplane chosen be the one\nthat in a sense divides the space most fairly.\nYet another p"
+        },
+        {
+          "chunk_id": "chunk-1489",
+          "page_number": 475,
+          "distance": 0.474614679813385,
+          "text": "12.2. PERCEPTRONS\n457\n12.2.7\nProblems With Perceptrons\nDespite the extensions discussed above, there are some limitations to the ability\nof perceptrons to classify some data. The biggest problem is that sometimes\nthe data is inherently not separable by a hyperplane. An example is shown in\nFig. 12.11. In this example, points of the two classes mix near the boundary so\nthat any line through the points will have points of both classes on at least one\nof the sides.\nFigure 12.11: A training set may not allow the existence of any separating\nhyperplane\nOne might argue that, based on the observations of Section 12.2.6 it should\nbe possible to ﬁnd some function on the points that would transform them to\nanother space where they were linearly separable.\nThat might be the case,\nbut if so, it would probably be an example of overﬁtting, the situation where\nthe classiﬁer works very well on the training set, because it has been carefully\ndesigned to handle each training example correctly. However, be"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        462,
+        475
+      ],
+      "latency_seconds": 0.04143440001644194,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0.0,
+      "mrr": 0.0,
+      "hit_rate_at_k": 0.0,
+      "expected_answer": "It conforms to peculiarities of the training-set data that are not present in the data as a whole, so it can perform worse on the test set than on the training set.",
+      "question_type": "Concept explanation",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, when a machine-learning model overfits its training set, it means that the model is able to accurately classify examples in the training set, but performs poorly on new, unseen data. This is illustrated in the text as an example of overfitting, where the model is \"carefully designed to handle each training example correctly\" but \"exploit[ing] details of the training set that do not apply to other examples that must be classiﬁed in the future\" (PDF page 475).",
+      "token_usage": {
+        "prompt_tokens": 845,
+        "answer_tokens": 109,
+        "total_tokens": 954
+      }
+    },
+    {
+      "question_id": "Q020",
+      "question": "How does recursive doubling reduce the number of MapReduce rounds needed for transitive closure?",
+      "relevant_pdf_pages": [
+        419
+      ],
+      "retrieved": [
+        {
+          "chunk_id": "chunk-1301",
+          "page_number": 409,
+          "distance": 0.32996296882629395,
+          "text": "mponent. But we\ncannot throw away all those pairs until we are done. During the computation\nof the transitive closure, we could wind up computing many facts Path(x, y),\nwhere neither x nor y is reachable from v, and even if they are reachable from\nv, we may not need to know x can reach y.\nAssuming the graph is small enough that we can compute the transitive\nclosure in its entirety, we still must be careful how we do so using MapReduce\nor another parallelism approach. The simplest recursive-doubling approach is to\nstart the the relation Path(X, Y ) equal to the arc relation Arc(X, Y ). Suppose\nthat after i rounds, Path(X, Y ) contains all pairs (x, y) such that there is a\npath from x to y of length at most 2i. Then if we join Path with itself at the\nnext round, we shall discover all those pairs (x, y) such that there is a path\nfrom x to y of length at most 2 × 2i = 2i+1. The recursive-doubling query in\nSQL is\nSELECT DISTINCT p1.X, p2.Y\nFROM Path p1, Path p2\nWHERE p1.Y = p2.X;\nAfter comp"
+        },
+        {
+          "chunk_id": "chunk-1336",
+          "page_number": 419,
+          "distance": 0.3523426055908203,
+          "text": "es a number of MapReduce rounds equal\nto the diameter of the graph.\nTransitive Closure by Recursive Doubling: An approach that uses fewer\nMapReduce rounds is to join the path relation with itself at each round.\nAt each round, we double the length of paths that are able to contribute\nto the transitive closure. Thus, the number of needed rounds is only the\nbase-2 logarithm of the diameter of the graph.\nSmart Transitive Closure: While recursive doubling can cause the same\npath to be considered many times, and thus increases the total compu-\ntation time (compared with iteratively joining paths with single arcs), a\nvariant called smart transitive closure avoids discovering the same path\nmore than once. The trick is to require that when joining two paths, the\nﬁrst has a length that is a power of 2.\nApproximating Neighborhood Sizes: By using the Flajolet-Martin tech-\nnique for approximating the number of distinct elements in a stream,\nwe can ﬁnd the neighborhood sizes at diﬀerent radii approx"
+        },
+        {
+          "chunk_id": "chunk-1304",
+          "page_number": 410,
+          "distance": 0.4221828579902649,
+          "text": "392\nCHAPTER 10. MINING SOCIAL-NETWORK GRAPHS\nExample 10.28 : Suppose the shortest path from x0 to x17 is of length 17; in\nparticular, let there be a path x0 →x1 →· · · →x17. We shall discover the fact\nPath(x0, x17) on the ﬁfth round, when Path contains all pairs connected by\npaths of length up to 16. The same path from x0 to x17 will be discovered 16\ntimes when we join Path with itself. That is, we can take the fact Path(x0, x16)\nand combine it with Path(x16, x17) to obtain Path(x0, x17). Or we can combine\nPath(x0, x15) with Path(x15, x17) to discover the same fact, and so on.\n✷\n10.8.5\nSmart Transitive Closure\nA variant of recursive doubling that avoids discovering the same path more than\nonce is called smart transitive closure. Every path of length greater than 1 can\nbe broken into a head whose length is a power of 2, followed by a tail whose\nlength is no greater than the length of the head.\nExample 10.29 : A path of length 13 has a head consisting of the ﬁrst 8 arcs,\nfollowed by a ta"
+        }
+      ],
+      "retrieved_unique_pages_at_k": [
+        409,
+        419,
+        410
+      ],
+      "latency_seconds": 0.04349120007827878,
+      "precision_at_k": 0.3333333333333333,
+      "recall_at_k": 1.0,
+      "mrr": 0.5,
+      "hit_rate_at_k": 1.0,
+      "expected_answer": "It joins the path relation with itself at each round, doubling the maximum path length that can contribute; therefore the number of rounds is the base-2 logarithm of the graph's diameter.",
+      "question_type": "Algorithm reasoning",
+      "answerable": true,
+      "generated_answer": "According to the PDF context, the recursive-doubling approach reduces the number of MapReduce rounds needed for transitive closure by joining the path relation with itself at each round, effectively doubling the length of paths that contribute to the transitive closure. The number of needed rounds is only the base-2 logarithm of the diameter of the graph, as stated on [PDF page 419].\n\nIn other words, the recursive-doubling approach takes advantage of the fact that paths of length 2i can be combined to discover paths of length 2i+1, thereby reducing the number of rounds needed to compute the transitive closure.",
+      "token_usage": {
+        "prompt_tokens": 907,
+        "answer_tokens": 129,
+        "total_tokens": 1036
+      }
+    }
+  ]
+}

@@ -9,7 +9,7 @@ from src.largedocrag.config import (
     TOP_K,
     VECTOR_STORE_PATH,
 )
-from src.largedocrag.generation import generate_answer as generate_with_module
+from src.largedocrag.generation import generate_answer_with_usage
 from src.largedocrag.retrieval import (
     format_context,
     format_sources,
@@ -22,6 +22,9 @@ if "chat_history" not in st.session_state:
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+if "last_token_usage" not in st.session_state:
+    st.session_state.last_token_usage = None
 
 
 st.set_page_config(
@@ -131,10 +134,33 @@ with st.sidebar:
         st.error("Could not open the ChromaDB collection.")
         st.caption(str(error))
 
+    token_usage_display = st.empty()
+    last_usage = st.session_state.last_token_usage
+    if last_usage is None:
+        token_usage_display.caption("Token usage will appear after your first question.")
+    elif last_usage["total"] is None:
+        token_usage_display.metric("Tokens for last question", "Unavailable")
+    else:
+        token_usage_display.metric(
+            "Tokens for last question", f"{last_usage['total']:,}"
+        )
+        token_usage_display.caption(
+            f"Input: {last_usage['prompt']:,} · Answer: {last_usage['answer']:,}"
+        )
+
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+        if message.get("token_usage"):
+            usage = message["token_usage"]
+            if usage["total"] is None:
+                st.caption("Token usage unavailable")
+            else:
+                st.caption(
+                    f"Tokens: {usage['total']:,} total "
+                    f"(input {usage['prompt']:,} · answer {usage['answer']:,})"
+                )
 
 
 question = st.chat_input("Ask a question about the PDF")
@@ -160,13 +186,43 @@ if question:
                     chunks = retrieve_chunks(search_question, collection)
                     context = format_context(chunks)
                     sources = format_sources(chunks)
-                    answer = generate_with_module(
+                    answer, prompt_tokens, answer_tokens = generate_answer_with_usage(
                         question,
                         context,
                         st.session_state.chat_history,
                     )
 
+                total_tokens = (
+                    prompt_tokens + answer_tokens
+                    if prompt_tokens is not None and answer_tokens is not None
+                    else None
+                )
+                token_usage = {
+                    "prompt": prompt_tokens,
+                    "answer": answer_tokens,
+                    "total": total_tokens,
+                }
+                st.session_state.last_token_usage = token_usage
+                if total_tokens is None:
+                    token_usage_display.metric(
+                        "Tokens for last question", "Unavailable"
+                    )
+                else:
+                    token_usage_display.metric(
+                        "Tokens for last question", f"{total_tokens:,}"
+                    )
+                    token_usage_display.caption(
+                        f"Input: {prompt_tokens:,} · Answer: {answer_tokens:,}"
+                    )
+
                 st.markdown(answer)
+                if total_tokens is None:
+                    st.caption("Token usage unavailable")
+                else:
+                    st.caption(
+                        f"Tokens: {total_tokens:,} total "
+                        f"(input {prompt_tokens:,} · answer {answer_tokens:,})"
+                    )
 
                 st.session_state.chat_history.append(
                     {"role": "user", "content": question}
@@ -175,7 +231,11 @@ if question:
                     {"role": "assistant", "content": answer}
                 )
                 st.session_state.messages.append(
-                    {"role": "assistant", "content": answer}
+                    {
+                        "role": "assistant",
+                        "content": answer,
+                        "token_usage": token_usage,
+                    }
                 )
 
                 if sources:

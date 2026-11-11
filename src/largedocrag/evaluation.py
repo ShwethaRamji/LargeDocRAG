@@ -19,10 +19,12 @@ from .config import (
     BASE_DIR,
     COLLECTION_NAME,
     EMBEDDING_MODEL,
+    CHAT_MODEL,
     TOP_K,
     VECTOR_STORE_PATH,
 )
 from .retrieval import RetrievedChunk, retrieve_chunks
+from .generation import generate_answer_with_usage
 
 
 logger = logging.getLogger(__name__)
@@ -152,6 +154,7 @@ def evaluate_retrieval(
                     "chunk_id": chunk.chunk_id,
                     "page_number": chunk.page_number,
                     "distance": chunk.distance,
+                    "text": chunk.text,
                 }
                 for chunk in chunks
             ],
@@ -304,11 +307,47 @@ def main() -> None:
     records = load_evaluation_dataset(args.dataset)
     results, aggregate = evaluate_retrieval(records, collection, top_k=args.top_k)
 
+    # Generate an answer from the same retrieved chunks so the saved run can
+    # be reviewed by an LLM judge without repeating retrieval or generation.
+    for result, record in zip(results, records):
+        context = "\n\n---\n\n".join(
+            f"[PDF page {chunk['page_number']}]\n{chunk['text']}"
+            for chunk in result["retrieved"]
+        )
+        answer, prompt_tokens, answer_tokens = generate_answer_with_usage(
+            result["question"], context
+        )
+        result["expected_answer"] = record.get("expected_answer", "")
+        result["question_type"] = record.get("question_type")
+        result["answerable"] = record.get("answerable")
+        result["generated_answer"] = answer
+        result["token_usage"] = {
+            "prompt_tokens": prompt_tokens,
+            "answer_tokens": answer_tokens,
+            "total_tokens": (
+                prompt_tokens + answer_tokens
+                if prompt_tokens is not None and answer_tokens is not None
+                else None
+            ),
+        }
+
     run_id = datetime.now().astimezone().strftime("%Y%m%dT%H%M%S%z")
     run_path = BASE_DIR / "experiments" / "retrieval_runs" / f"{run_id}.json"
     run_path.parent.mkdir(parents=True, exist_ok=True)
     run_path.write_text(
-        json.dumps({"top_k": args.top_k, "aggregate": aggregate, "questions": results}, indent=2),
+        json.dumps(
+            {
+                "run_id": run_id,
+                "retrieval_method": "dense cosine similarity",
+                "embedding_model": EMBEDDING_MODEL,
+                "answer_model": CHAT_MODEL,
+                "top_k": args.top_k,
+                "aggregate": aggregate,
+                "questions": results,
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
         encoding="utf-8",
     )
     question_csv_path = run_path.with_suffix(".csv")
